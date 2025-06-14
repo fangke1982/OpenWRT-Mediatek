@@ -65,14 +65,12 @@ jobs:
       working-directory: /builder
       run: |
         bash <(curl -sS ${{ secrets.script_url_general }}) ${{ matrix.model }}
-        cd openwrt
-        tags=$(git describe --abbrev=0 --tags)
-
+ 
     - name: Extensive logs after a failed compilation
       if: steps.compile.outcome == 'failure'
       working-directory: /builder
       run: |
-        cd openwrt
+        cd immortalwrt-mt798x
         make V=s IGNORE_ERRORS="n m"
 
     - name: Delete Cached
@@ -95,12 +93,12 @@ jobs:
       run: |
         mkdir -p rom info
         if [ "${{ matrix.model }}" = "Mediatek_mt7981" ]; then
-          cp -a immortalwrt-mt798x/bin/targets/rockchip/*/*.img.gz rom/
-          cp -a immortalwrt-mt798x/bin/targets/rockchip/*/config.buildinfo info/config.buildinfo
+          cp -a immortalwrt-mt798x/bin/targets/mediatek/mt7981/* rom/
+          cp -a immortalwrt-mt798x/bin/targets/mediatek/*/config.buildinfo info/config.buildinfo
           cd rom && sha256sum * > ../info/sha256sums.txt
-        elif [ "${{ matrix.model }}" = "Mediatek_mt7981" ]; then
-          cp -a openwrt/bin/targets/rockchip/*/*.img.gz rom/
-          cp -a openwrt/bin/targets/rockchip/*/config.buildinfo info/config.buildinfo
+        elif [ "${{ matrix.model }}" = "Mediatek_mt7986" ]; then
+          cp -a openwrt/bin/targets/mediatek/mt7986/*.img.gz rom/
+          cp -a openwrt/bin/targets/mediatek/*/config.buildinfo info/config.buildinfo
           cd rom && sha256sum * > ../info/sha256sums.txt
         fi
         cd ..
