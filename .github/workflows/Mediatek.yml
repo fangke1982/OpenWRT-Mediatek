@@ -95,13 +95,11 @@ jobs:
       run: |
         mkdir -p rom info
         if [ "${{ matrix.model }}" = "Mediatek_mt7981" ]; then
-          cp -a openwrt/bin/targets/rockchip/*/*.img.gz rom/
-          cp -a openwrt/bin/targets/rockchip/*/*-r4s.manifest info/manifest.txt
-          cp -a openwrt/bin/targets/rockchip/*/config.buildinfo info/config.buildinfo
+          cp -a immortalwrt-mt798x/bin/targets/rockchip/*/*.img.gz rom/
+          cp -a immortalwrt-mt798x/bin/targets/rockchip/*/config.buildinfo info/config.buildinfo
           cd rom && sha256sum * > ../info/sha256sums.txt
         elif [ "${{ matrix.model }}" = "Mediatek_mt7981" ]; then
           cp -a openwrt/bin/targets/rockchip/*/*.img.gz rom/
-          cp -a openwrt/bin/targets/rockchip/*/*.manifest info/manifest.txt
           cp -a openwrt/bin/targets/rockchip/*/config.buildinfo info/config.buildinfo
           cd rom && sha256sum * > ../info/sha256sums.txt
         fi
@@ -116,6 +114,6 @@ jobs:
         tag: ${{ matrix.model }}
         commit: master
         replacesArtifacts: true
-        token: ${{ secrets.workflow_token }}
+        token: ${{ secrets.GITHUB_TOKEN }}
         artifacts: |
           ${{ env.build_dir }}/rom/*
