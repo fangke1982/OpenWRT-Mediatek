@@ -63,16 +63,10 @@ jobs:
       id: compile
       continue-on-error: true
       working-directory: /builder
-      env:
-        git_name: private
-        git_password: ${{ secrets.ftp_password }}
-        private_url: ${{ secrets.private_url }}
       run: |
-        [ "${{ matrix.model }}" != "netgear_r8500" ] && export KERNEL_CLANG_LTO=y
-        bash <(curl -sS ${{ secrets.script_url_general }}) ${{ matrix.tag.type }} ${{ matrix.model }}
+        bash <(curl -sS ${{ secrets.script_url_general }}) ${{ matrix.model }}
         cd openwrt
         tags=$(git describe --abbrev=0 --tags)
-        echo "latest_release=$tags" >>$GITHUB_ENV
 
     - name: Extensive logs after a failed compilation
       if: steps.compile.outcome == 'failure'
@@ -117,9 +111,9 @@ jobs:
     - name: Create release
       uses: ncipollo/release-action@v1.14.0
       with:
-        name: OpenWrt-${{ env.latest_release }}
+        name: ${{ matrix.model }}
         allowUpdates: true
-        tag: ${{ env.latest_release }}
+        tag: ${{ matrix.model }}
         commit: master
         replacesArtifacts: true
         token: ${{ secrets.workflow_token }}
