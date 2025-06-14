@@ -1,0 +1,127 @@
+name: ⚡ Mediatek
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [release]
+
+jobs:
+  build:
+    name: Build ${{ matrix.model }}
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      fail-fast: false
+      matrix:
+        model:
+          - Mediatek_mt7981
+          - Mediatek_mt7981
+
+    steps:
+    - name: Setup variables
+      run: |
+        sudo timedatectl set-timezone 'Asia/Shanghai'
+        git config --global user.name 'actions'
+        git config --global user.email 'action@github.com'
+        echo build_dir="/builder" >> "$GITHUB_ENV"
+
+
+    - name: Show system
+      run: |
+        echo -e "\n\e[1;32mCPU:\e[0m"
+        echo "$(grep 'model name' /proc/cpuinfo | head -1 | awk -F ': ' '{print $2}') ($(grep 'cpu MHz' /proc/cpuinfo | head -1 | awk -F ': ' '{print $2}')MHz) x $(grep processor /proc/cpuinfo  | wc -l)"
+        echo -e "\n\e[1;32mMemory:\e[0m"
+        free -h
+        echo -e "\n\e[1;32mStorage:\e[0m"
+        df -Th / /mnt
+        echo -e "\n\e[1;32mSystem:\e[0m"
+        lsb_release -a
+        echo -e "\n\e[1;32mKernel:\e[0m"
+        uname -a
+        echo
+
+    - name: Free disk space
+      uses: sbwml/actions@free-disk
+      with:
+        build-mount-path: /builder
+
+    - name: Build System Setup
+      uses: sbwml/actions@openwrt-build-setup
+
+    - name: Install LLVM
+      uses: sbwml/actions@install-llvm
+
+    - name: Restore Cached
+      uses: actions/cache/restore@v4
+      with:
+        path: /builder/.ccache
+        key: ${{ matrix.model }}
+
+    - name: Compile OpenWrt
+      id: compile
+      continue-on-error: true
+      working-directory: /builder
+      env:
+        git_name: private
+        git_password: ${{ secrets.ftp_password }}
+        private_url: ${{ secrets.private_url }}
+      run: |
+        [ "${{ matrix.model }}" != "netgear_r8500" ] && export KERNEL_CLANG_LTO=y
+        bash <(curl -sS ${{ secrets.script_url_general }}) ${{ matrix.tag.type }} ${{ matrix.model }}
+        cd openwrt
+        tags=$(git describe --abbrev=0 --tags)
+        echo "latest_release=$tags" >>$GITHUB_ENV
+
+    - name: Extensive logs after a failed compilation
+      if: steps.compile.outcome == 'failure'
+      working-directory: /builder
+      run: |
+        cd openwrt
+        make V=s IGNORE_ERRORS="n m"
+
+    - name: Delete Cached
+      continue-on-error: true
+      working-directory: /builder
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_REPO: ${{ github.repository }}
+      run: |
+        gh cache delete ${{ matrix.model }} || true
+
+    - name: Save Cached
+      uses: actions/cache/save@v4
+      with:
+        path: /builder/.ccache
+        key: ${{ matrix.model }}
+
+    - name: Prepare Firmware Files
+      working-directory: /builder
+      run: |
+        mkdir -p rom info
+        if [ "${{ matrix.model }}" = "Mediatek_mt7981" ]; then
+          cp -a openwrt/bin/targets/rockchip/*/*.img.gz rom/
+          cp -a openwrt/bin/targets/rockchip/*/*-r4s.manifest info/manifest.txt
+          cp -a openwrt/bin/targets/rockchip/*/config.buildinfo info/config.buildinfo
+          cd rom && sha256sum * > ../info/sha256sums.txt
+        elif [ "${{ matrix.model }}" = "Mediatek_mt7981" ]; then
+          cp -a openwrt/bin/targets/rockchip/*/*.img.gz rom/
+          cp -a openwrt/bin/targets/rockchip/*/*.manifest info/manifest.txt
+          cp -a openwrt/bin/targets/rockchip/*/config.buildinfo info/config.buildinfo
+          cd rom && sha256sum * > ../info/sha256sums.txt
+        fi
+        cd ..
+        tar zcf rom/buildinfo_${{ matrix.model }}.tar.gz info
+
+    - name: Create release
+      uses: ncipollo/release-action@v1.14.0
+      with:
+        name: OpenWrt-${{ env.latest_release }}
+        allowUpdates: true
+        tag: ${{ env.latest_release }}
+        commit: master
+        replacesArtifacts: true
+        token: ${{ secrets.workflow_token }}
+        artifacts: |
+          ${{ env.build_dir }}/rom/*
