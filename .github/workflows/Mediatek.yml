@@ -73,15 +73,9 @@ jobs:
         if [ "${{ matrix.model }}" = "Mediatek_mt7981" ]; then
           cp -a immortalwrt-mt798x/bin/targets/mediatek/mt7981/*.bin rom/
           cp -a immortalwrt-mt798x/bin/targets/mediatek/mt7981/*.tar rom/
-          cp -a immortalwrt-mt798x/bin/targets/mediatek/mt7981/config.buildinfo info/config.buildinfo
-          cd rom && sha256sum * > ../info/sha256sums.txt
         elif [ "${{ matrix.model }}" = "Mediatek_mt7986" ]; then
           cp -a immortalwrt-mt798x/bin/targets/mediatek/mt7986/*.bin rom/
-          cp -a immortalwrt-mt798x/bin/targets/mediatek/mt7986/config.buildinfo info/config.buildinfo
-          cd rom && sha256sum * > ../info/sha256sums.txt
         fi
-        cd ..
-        tar zcf rom/buildinfo_${{ matrix.model }}.tar.gz info
 
     - name: Create release
       uses: ncipollo/release-action@v1.14.0
