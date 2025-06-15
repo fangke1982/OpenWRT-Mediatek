@@ -76,8 +76,8 @@ jobs:
           cp -a immortalwrt-mt798x/bin/targets/mediatek/mt7981/config.buildinfo info/config.buildinfo
           cd rom && sha256sum * > ../info/sha256sums.txt
         elif [ "${{ matrix.model }}" = "Mediatek_mt7986" ]; then
-          cp -a openwrt/bin/targets/mediatek/mt7986/*.bin rom/
-          cp -a openwrt/bin/targets/mediatek/mt7986/config.buildinfo info/config.buildinfo
+          cp -a immortalwrt-mt798x/bin/targets/mediatek/mt7986/*.bin rom/
+          cp -a immortalwrt-mt798x/bin/targets/mediatek/mt7986/config.buildinfo info/config.buildinfo
           cd rom && sha256sum * > ../info/sha256sums.txt
         fi
         cd ..
