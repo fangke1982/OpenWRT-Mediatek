@@ -69,22 +69,23 @@ jobs:
     - name: Prepare Firmware Files
       working-directory: /builder
       run: |
-        mkdir -p rom info
         if [ "${{ matrix.model }}" = "Mediatek_mt7981" ]; then
-          cp -a immortalwrt-mt798x/bin/targets/mediatek/mt7981/*.bin rom/
-          cp -a immortalwrt-mt798x/bin/targets/mediatek/mt7981/*.tar rom/
-        elif [ "${{ matrix.model }}" = "Mediatek_mt7986" ]; then
-          cp -a immortalwrt-mt798x/bin/targets/mediatek/mt7986/*.bin rom/
+          cd immortalwrt-mt798x/bin/targets/mediatek/mt7981
+          cat sha256sums
+          rm -rf packages feeds.buildinfo version.buildinfo
+          echo "FIRMWARE_PATH=$PWD" >> $GITHUB_ENV
+        elif [ "${{ matrix.model }}" = "Mediatek_mt7981" ]; then
+          cd immortalwrt-mt798x/bin/targets/mediatek/mt7986
+          cat sha256sums
+          rm -rf packages feeds.buildinfo version.buildinfo
+          echo "FIRMWARE_PATH=$PWD" >> $GITHUB_ENV
         fi
-
-    - name: Create release
+         
+    - name: Upload Firmware To Release
       uses: ncipollo/release-action@v1.14.0
       with:
         name: ${{ matrix.model }}
         allowUpdates: true
         tag: ${{ matrix.model }}
-        commit: master
-        replacesArtifacts: true
         token: ${{ secrets.GITHUB_TOKEN }}
-        artifacts: |
-          ${{ env.build_dir }}/rom/*
+        artifacts: ${{ env.FIRMWARE_PATH }}/*
