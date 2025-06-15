@@ -71,15 +71,11 @@ jobs:
       run: |
         if [ "${{ matrix.model }}" = "Mediatek_mt7981" ]; then
           cd immortalwrt-mt798x/bin/targets/mediatek/mt7981
-          cat sha256sums
-          rm -rf packages feeds.buildinfo version.buildinfo
-          echo "FIRMWARE_PATH=$PWD" >> $GITHUB_ENV
-        elif [ "${{ matrix.model }}" = "Mediatek_mt7981" ]; then
+        elif [ "${{ matrix.model }}" = "Mediatek_mt7986" ]; then
           cd immortalwrt-mt798x/bin/targets/mediatek/mt7986
-          cat sha256sums
-          rm -rf packages feeds.buildinfo version.buildinfo
-          echo "FIRMWARE_PATH=$PWD" >> $GITHUB_ENV
         fi
+        rm -rf packages feeds.buildinfo version.buildinfo
+        echo "FIRMWARE_PATH=$PWD" >> $GITHUB_ENV
          
     - name: Upload Firmware To Release
       uses: ncipollo/release-action@v1.14.0
