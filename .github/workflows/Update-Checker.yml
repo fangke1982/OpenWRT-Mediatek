@@ -1,4 +1,20 @@
-name: 🔄 检查更新
+#
+# https://github.com/P3TERX/Actions-OpenWrt
+#
+# File: .github/workflows/update-checker.yml
+# Description: Source code update checker
+#
+# Copyright (c) 2019-2024 P3TERX <https://p3terx.com>
+#
+# This is free software, licensed under the MIT License.
+# See /LICENSE for more information.
+#
+
+name: Update Checker
+
+env:
+  REPO_URL: https://github.com/zhiern/immortalwrt-mt798x
+  REPO_BRANCH: openwrt-21.02
 
 on:
   workflow_dispatch:
@@ -7,14 +23,14 @@ on:
 
 jobs:
   check:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
 
     steps:
 
     - name: Get Commit Hash
       id: getHash
       run: |
-        git clone --depth 1 https://github.com/zhiern/immortalwrt-mt798x openwrt-21.02 .
+        git clone --depth 1 $REPO_URL -b $REPO_BRANCH .
         echo "commitHash=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
     - name: Compare Commit Hash
