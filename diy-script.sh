@@ -49,6 +49,10 @@ sed -i "s/DISTRIB_DESCRIPTION='*.*'/DISTRIB_DESCRIPTION='ZeroWrt-$(date +%Y%m%d)
 sed -i "s/DISTRIB_REVISION='*.*'/DISTRIB_REVISION=' By OPPEN321'/g" package/base-files/files/etc/openwrt_release
 sed -i "s|^OPENWRT_RELEASE=\".*\"|OPENWRT_RELEASE=\"ZeroWrt 标准版 @R$(date +%Y%m%d) BY OPPEN321\"|" package/base-files/files/usr/lib/os-release
 
+# 加载补丁文件
+curl -sL $mirror/Patch/0001-Modify-version-information.patch | patch -p1
+curl -sL $mirror/Patch/0001-netcore-n60-pro-512-flash-version.patch | patch -p1
+
 # golang 1.24
 rm -rf feeds/packages/lang/golang
 git clone https://$gitea/packages_lang_golang -b 25.x feeds/packages/lang/golang
