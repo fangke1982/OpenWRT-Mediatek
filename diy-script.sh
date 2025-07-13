@@ -1,0 +1,102 @@
+#!/bin/bash
+
+# 脚本URL
+export mirror=http://127.0.0.1:8080
+
+# GitHub镜像
+export github="github.com"
+
+# 私有Gitea
+export gitea=git.kejizero.online/zhao
+
+# 修改默认ip
+sed -i "s/192.168.6.1/10.0.0.1/g" package/base-files/files/bin/config_generate
+
+# 修改名称
+sed -i 's/ImmortalWrt/ZeroWrt/' package/base-files/files/bin/config_generate
+
+# WiFi
+sed -i "s/MT7986_AX6000_2.4G/AE86-2.4G/g" package/mtk/drivers/wifi-profile/files/mt7986/mt7986-ax6000.dbdc.b0.dat
+sed -i "s/MT7986_AX6000_5G/AE86-5G/g" package/mtk/drivers/wifi-profile/files/mt7986/mt7986-ax6000.dbdc.b1.dat
+
+sed -i "s/MT7981_AX3000_2.4G/AE86-2.4G/g" package/mtk/drivers/wifi-profile/files/mt7981/mt7981.dbdc.b0.dat
+sed -i "s/MT7981_AX3000_5G/AE86-5G/g" package/mtk/drivers/wifi-profile/files/mt7981/mt7981.dbdc.b1.dat
+
+# New WiFi
+sed -i "s/ImmortalWrt-2.4G/AE86-2.4G/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
+sed -i "s/ImmortalWrt-5G/AE86-5G/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
+
+# 版本设置
+cat << 'EOF' >> feeds/luci/modules/luci-mod-status/ucode/template/admin_status/index.ut
+<script>
+function addLinks() {
+    var section = document.querySelector(".cbi-section");
+    if (section) {
+        var links = document.createElement('div');
+        links.innerHTML = '<div class="table"><div class="tr"><div class="td left" width="33%"><a href="https://qm.qq.com/q/JbBVnkjzKa" target="_blank">QQ交流群</a></div><div class="td left" width="33%"><a href="https://t.me/kejizero" target="_blank">TG交流群</a></div><div class="td left"><a href="https://openwrt.kejizero.online" target="_blank">固件地址</a></div></div></div>';
+        section.appendChild(links);
+    } else {
+        setTimeout(addLinks, 100); // 继续等待 `.cbi-section` 加载
+    }
+}
+
+document.addEventListener("DOMContentLoaded", addLinks);
+</script>
+EOF
+
+# 加入作者信息
+sed -i "s/DISTRIB_DESCRIPTION='*.*'/DISTRIB_DESCRIPTION='ZeroWrt-$(date +%Y%m%d)'/g"  package/base-files/files/etc/openwrt_release
+sed -i "s/DISTRIB_REVISION='*.*'/DISTRIB_REVISION=' By OPPEN321'/g" package/base-files/files/etc/openwrt_release
+sed -i "s|^OPENWRT_RELEASE=\".*\"|OPENWRT_RELEASE=\"ZeroWrt 标准版 @R$(date +%Y%m%d) BY OPPEN321\"|" package/base-files/files/usr/lib/os-release
+
+# golang 1.24
+rm -rf feeds/packages/lang/golang
+git clone https://$gitea/packages_lang_golang -b 25.x feeds/packages/lang/golang
+
+# Docker
+rm -rf feeds/luci/applications/luci-app-dockerman
+git clone https://$gitea/luci-app-dockerman -b openwrt-24.10 feeds/luci/applications/luci-app-dockerman
+rm -rf feeds/packages/utils/{docker,dockerd,containerd,runc}
+git clone https://$gitea/packages_utils_docker feeds/packages/utils/docker
+git clone https://$gitea/packages_utils_dockerd feeds/packages/utils/dockerd
+git clone https://$gitea/packages_utils_containerd feeds/packages/utils/containerd
+git clone https://$gitea/packages_utils_runc feeds/packages/utils/runc
+
+# SSRP & Passwall
+rm -rf feeds/luci/applications/{luci-app-daed,luci-app-dae,luci-app-homeproxy,luci-app-openclash,luci-app-passwall
+rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box}
+git clone -b openwrt-24.10 https://$gitea/openwrt_helloworld package/new/helloworld
+
+# argon
+rm -rf feeds/luci/themes/luci-theme-argon
+git clone https://$github/jerrykuku/luci-theme-argon.git package/new/luci-theme-argon
+curl -s $mirror/Customize/argon/bg1.jpg > package/new/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
+curl -s $mirror/Customize/argon/iconfont.ttf > package/new/luci-theme-argon/htdocs/luci-static/argon/fonts/iconfont.ttf
+curl -s $mirror/Customize/argon/iconfont.woff > package/new/luci-theme-argon/htdocs/luci-static/argon/fonts/iconfont.woff
+curl -s $mirror/Customize/argon/iconfont.woff2 > package/new/luci-theme-argon/htdocs/luci-static/argon/fonts/iconfont.woff2
+curl -s $mirror/Customize/argon/cascade.css > package/new/luci-theme-argon/htdocs/luci-static/argon/css/cascade.css
+
+# argon-config
+rm -rf feeds/luci/applications/luci-app-argon-config
+git clone https://$github/jerrykuku/luci-app-argon-config.git package/new/luci-app-argon-config
+sed -i "s/bing/none/g" package/new/luci-app-argon-config/root/etc/config/argon
+
+# 主题设置
+sed -i 's|<a class="luci-link" href="https://github.com/openwrt/luci" target="_blank">Powered by <%= ver.luciname %> (<%= ver.luciversion %>)</a>|<a class="luci-link" href="https://www.kejizero.online" target="_blank">探索无限</a>|g' package/new/luci-theme-argon/luasrc/view/themes/argon/footer.htm
+sed -i 's|<a href="https://github.com/jerrykuku/luci-theme-argon" target="_blank">ArgonTheme <%# vPKG_VERSION %></a>|<a href="https://github.com/zhiern/OpenWRT" target="_blank">ZeroWrt</a> |g' package/new/luci-theme-argon/luasrc/view/themes/argon/footer.htm
+sed -i 's|<a class="luci-link" href="https://github.com/openwrt/luci" target="_blank">Powered by <%= ver.luciname %> (<%= ver.luciversion %>)</a>|<a class="luci-link" href="https://www.kejizero.online" target="_blank">探索无限</a>|g' package/new/luci-theme-argon/luasrc/view/themes/argon/footer_login.htm
+sed -i 's|<a href="https://github.com/jerrykuku/luci-theme-argon" target="_blank">ArgonTheme <%# vPKG_VERSION %></a>|<a href="https://github.com/zhiern/OpenWRT" target="_blank">ZeroWrt</a> |g' package/new/luci-theme-argon/luasrc/view/themes/argon/footer_login.htm
+
+# lucky
+git clone https://$github/gdy666/luci-app-lucky.git package/new/lucky
+
+# Mosdns
+git clone https://$github/sbwml/luci-app-mosdns -b v5 package/new/mosdns
+
+# openlist
+rm -rf feeds/luci/applications/luci-app-openlist
+git clone https://$github/sbwml/luci-app-openlist package/new/openlist
+
+# install feeds
+./scripts/feeds update -a
+./scripts/feeds install -a
