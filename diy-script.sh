@@ -104,6 +104,9 @@ git clone https://$github/sbwml/luci-app-mosdns -b v5 package/new/mosdns
 rm -rf feeds/luci/applications/luci-app-openlist
 git clone https://$github/sbwml/luci-app-openlist package/new/openlist
 
+# adguardhome
+git clone https://$gitea/luci-app-adguardhome package/new/luci-app-adguardhome
+
 # install feeds
 ./scripts/feeds update -a
 ./scripts/feeds install -a
