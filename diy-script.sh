@@ -56,7 +56,7 @@ curl -s $mirror/Customize/emortal/99-default-settings > package/emortal/default-
 curl -sL $mirror/Patch/0001-Modify-version-information.patch | patch -p1
 curl -sL $mirror/Patch/0001-netcore-n60-pro-512-flash-version.patch | patch -p1
 
-# golang 1.24
+# golang 1.25
 rm -rf feeds/packages/lang/golang
 git clone https://$gitea/packages_lang_golang -b 25.x feeds/packages/lang/golang
 
