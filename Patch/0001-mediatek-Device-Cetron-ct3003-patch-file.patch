@@ -1,0 +1,25 @@
+From 725ff6afa64662309adde58ba7ff96959e65d29e Mon Sep 17 00:00:00 2001
+From: OPPEN321 <zj18139624826@gmail.com>
+Date: Sun, 13 Jul 2025 19:53:09 +0800
+Subject: [PATCH] mediatek: Device Cetron ct3003 patch file
+
+Signed-off-by: OPPEN321 <zj18139624826@gmail.com>
+---
+ target/linux/mediatek/dts/mt7981b-cetron-ct3003.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/target/linux/mediatek/dts/mt7981b-cetron-ct3003.dts b/target/linux/mediatek/dts/mt7981b-cetron-ct3003.dts
+index 23b0721fbe..3a2cff9396 100644
+--- a/target/linux/mediatek/dts/mt7981b-cetron-ct3003.dts
++++ b/target/linux/mediatek/dts/mt7981b-cetron-ct3003.dts
+@@ -11,7 +11,7 @@
+ &partitions {
+ 	partition@580000 {
+ 		label = "ubi";
+-		reg = <0x0580000 0x2000000>;
++		reg = <0x0580000 0x6e80000>;
+ 	};
+ 
+ 	partition@2580000 {
+-- 
+2.43.0
