@@ -80,8 +80,8 @@ git clone https://$gitea/packages_utils_containerd feeds/packages/utils/containe
 git clone https://$gitea/packages_utils_runc feeds/packages/utils/runc
 
 # SSRP & Passwall
-rm -rf feeds/luci/applications/{luci-app-daed,luci-app-dae,luci-app-homeproxy,luci-app-openclash,luci-app-passwall
-rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box}
+rm -rf feeds/luci/applications/{luci-app-daed,luci-app-dae,luci-app-homeproxy,luci-app-openclash,luci-app-passwall}
+rm -rf feeds/packages/net/{daed,xray-core,v2ray-core,v2ray-geodata,sing-box}
 git clone -b openwrt-24.10 https://$gitea/openwrt_helloworld package/new/helloworld
 
 # argon
