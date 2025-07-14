@@ -175,7 +175,7 @@ jobs:
         name: ccache
         allowUpdates: true
         tag: ccache
-        commit: master
+        commit: openwrt-24.10
         replacesArtifacts: true
         prerelease: true
         token: ${{ secrets.GITHUB_TOKEN }}
