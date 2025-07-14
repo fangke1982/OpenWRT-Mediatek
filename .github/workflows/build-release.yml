@@ -13,6 +13,14 @@ on:
           - 'Netcore-N60-pro'
           - 'Netcore-N60-pro-512rom'
           - 'Cetron-CT3003'
+      version:
+        description: 'Select the build version'
+        required: true
+        default: 'openwrt-24.10'
+        type: choice
+        options:
+          - 'openwrt-24.10'
+          - 'openwrt-21.02'
       ccache:
         description: 'Enable ccache (Use Cache to speed up next build)'
         type: boolean
@@ -64,8 +72,7 @@ jobs:
         git config --global user.name 'actions'
         git config --global user.email 'action@github.com'
         echo build_dir="/builder" >> "$GITHUB_ENV"
-        [ "${{ github.event.inputs.version }}" = release ] && echo build_version="rc2" >> "$GITHUB_ENV" || echo build_version="dev" >> "$GITHUB_ENV"
-
+       
     - name: Show system
       run: |
         echo -e "\n\e[1;32mCPU:\e[0m"
@@ -130,7 +137,7 @@ jobs:
         export ${{ github.event.inputs.build_options }} LAN=${{ github.event.inputs.lan_addr }} Wifi_Name="${{ github.event.inputs.wifi_name }}" Wifi_Name="${{ github.event.inputs.wifi_password }}"
         [ ${{ github.event.inputs.ccache }} = 'true' ] && export ENABLE_CCACHE=y
         [ -n ${{ github.event.inputs.root_password }} ] && export ROOT_PASSWORD="${{ github.event.inputs.root_password }}"
-        bash <(curl -sS http://127.0.0.1:8080/build.sh) ${{ env.build_version }} ${{ github.event.inputs.device }}
+        bash <(curl -sS http://127.0.0.1:8080/build.sh) ${{ github.event.inputs.device }}
 
     - name: Extensive logs after a failed compilation
       working-directory: /builder
