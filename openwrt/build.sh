@@ -149,15 +149,24 @@ fi
 bash prepare_base.sh
 
 # Load devices Config
-if [ "$platform" = "Netcore-N60" ]; then
-    curl -s $mirror/openwrt/24-config-netcore-n60 > .config
-elif [ "$platform" = "bcm53xx" ]; then
-    curl -s $mirror/openwrt/24-config-netcore-n60-pro > .config
-else
-    curl -s $mirror/openwrt/24-config-netcore-n60-pro-512rom > .config
-elif [ "$platform" = "rk3568" ]; then
-    curl -s $mirror/openwrt/24-config-cetron-ct3003 > .config
-fi
+case "$platform" in
+    "Netcore-N60")
+        curl -s $mirror/openwrt/24-config-netcore-n60 > .config
+        ;;
+    "Netcore-N60-pro")
+        curl -s $mirror/openwrt/24-config-netcore-n60-pro > .config
+        ;;
+    "Netcore-N60-pro-512rom")
+        curl -s $mirror/openwrt/24-config-netcore-n60-pro-512rom > .config
+        ;;
+    "Cetron-CT3003")
+        curl -s $mirror/openwrt/24-config-cetron-ct3003 > .config
+        ;;
+    *)
+        echo -e "${RED_COLOR}Unsupported platform: $platform${RES}"
+        exit 1
+        ;;
+esac
 
 # gcc config
 echo -e "\n# gcc ${gcc_version}" >> .config
