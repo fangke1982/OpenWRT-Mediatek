@@ -45,6 +45,12 @@ export github="github.com"
 # 私有Gitea
 export gitea=git.kejizero.online/zhao
 
+# Check root
+if [ "$(id -u)" = "0" ]; then
+    echo -e "${RED_COLOR}Building with root user is not supported.${RES}"
+    exit 1
+fi
+
 # Start time
 starttime=$(date +'%Y-%m-%d %H:%M:%S')
 CURRENT_DATE=$(date +%s)
