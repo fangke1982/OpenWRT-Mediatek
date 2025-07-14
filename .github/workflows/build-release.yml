@@ -37,6 +37,11 @@ on:
         required: false
         default: '12345678'
         type: string
+      build_options:
+        description: 'Build options (separate multiple options with spaces)'
+        required: false
+        default: 'BUILD_FAST=y'
+        type: string
 
 jobs:
   build:
