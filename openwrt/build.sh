@@ -165,7 +165,7 @@ curl -sO "$mirror/openwrt/scripts/01-preset_adguard_core.sh"
 curl -sO "$mirror/openwrt/scripts/02-preset_mihimo_core.sh"
 chmod 0755 ./*sh
 if [ "$platform" = "Netcore-N60-pro-512rom" ]; then
-    bash 01-preset_adguard_core.sh.sh
+    bash 01-preset_adguard_core.sh
     bash 02-preset_mihimo_core.sh
 fi
 bash 00-prepare_base.sh
