@@ -28,7 +28,7 @@ endgroup() {
 export mirror=https://raw.githubusercontent.com/zhiern/OpenWRT-Mediatek/refs/heads/openwrt-24.10
 
 # github actions - caddy server
-if [ "$(whoami)" = "runner" ]
+if [ "$(whoami)" = "runner" ]; then
     export mirror=http://127.0.0.1:8080
 fi
 
