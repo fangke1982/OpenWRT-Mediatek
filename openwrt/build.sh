@@ -20,6 +20,13 @@ endgroup() {
     GROUP=
 }
 
+# check
+if [ "$(whoami)" != "zhiern" ] && [ -z "$git_name" ] && [ -z "$git_password" ]; then
+    echo -e "\n${RED_COLOR} Not authorized. Execute the following command to provide authorization information:${RES}\n"
+    echo -e "${BLUE_COLOR} export git_name=your_username git_password=your_password${RES}\n"
+    exit 1
+fi
+
 #####################################
 #   Mediatek OpenWrt Build Script   #
 #####################################
@@ -37,12 +44,6 @@ export github="github.com"
 
 # 私有Gitea
 export gitea=git.kejizero.online/zhao
-
-# Check root
-if [ "$(id -u)" = "0" ]; then
-    echo -e "${RED_COLOR}Building with root user is not supported.${RES}"
-    exit 1
-fi
 
 # Start time
 starttime=$(date +'%Y-%m-%d %H:%M:%S')
