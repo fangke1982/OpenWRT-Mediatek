@@ -41,6 +41,7 @@ fi
 
 # Start time
 starttime=`date +'%Y-%m-%d %H:%M:%S'`
+CURRENT_DATE=$(date +%s)
 
 # Cpus
 cores=`expr $(nproc --all) + 1`
@@ -75,6 +76,15 @@ fi
 [ "$1" = "Netcore-N60-pro-512rom" ] && export platform="Netcore-N60-pro-512rom" toolchain_arch="aarch64_cortex-a53"
 [ "$1" = "Cetron-CT3003" ] && export platform="Cetron-CT3003" toolchain_arch="aarch64_cortex-a53"
 
+# gcc13 & 14
+if [ "$USE_GCC13" = y ]; then
+    export USE_GCC13=y gcc_version=13
+elif [ "$USE_GCC14" = y ]; then
+    export USE_GCC14=y gcc_version=14
+else
+    export USE_GCC14=y gcc_version=14
+fi
+
 # Passwaor
 export ROOT_PASSWORD=$ROOT_PASSWORD
 
@@ -89,6 +99,19 @@ elif [ "$platform" = "Netcore-N60-pro-512rom" ]; then
 elif [ "$platform" = "Cetron-CT3003" ]; then
     echo -e "${GREEN_COLOR}Model: Cetron-CT3003${RES}"
 fi
+get_kernel_version=$(curl -s https://raw.githubusercontent.com/padavanonly/immortalwrt-mt798x-6.6/refs/heads/openwrt-24.10-6.6/include/kernel-6.6)
+kmod_hash=$(echo -e "$get_kernel_version" | awk -F'HASH-' '{print $2}' | awk '{print $1}' | tail -1 | md5sum | awk '{print $1}')
+kmodpkg_name=$(echo $(echo -e "$get_kernel_version" | awk -F'HASH-' '{print $2}' | awk '{print $1}')~$(echo $kmod_hash)-r1)
+echo -e "${GREEN_COLOR}Kernel: $kmodpkg_name ${RES}"
+echo -e "${GREEN_COLOR}Date: $CURRENT_DATE${RES}\r\n"
+echo -e "${GREEN_COLOR}SCRIPT_URL:${RES} ${BLUE_COLOR}$mirror${RES}\r\n"
+echo -e "${GREEN_COLOR}GCC VERSION: $gcc_version${RES}"
+[ -n "$LAN" ] && echo -e "${GREEN_COLOR}LAN: $LAN${RES}" || echo -e "${GREEN_COLOR}LAN: 10.0.0.1${RES}"
+[ -n "$ROOT_PASSWORD" ] && echo -e "${GREEN_COLOR}Default Password:${RES} ${BLUE_COLOR}$ROOT_PASSWORD${RES}" || echo -e "${GREEN_COLOR}Default Password: (${RES}${YELLOW_COLOR}password${RES}${GREEN_COLOR})${RES}"
+[ -n "$Wifi_Name" ] && echo -e "${GREEN_COLOR}Default Wifi Name:${RES} ${BLUE_COLOR}$Wifi_Name{RES}" || echo -e "${GREEN_COLOR}Default Wifi Name: (${RES}${YELLOW_COLOR}ZeroWrt${RES}${GREEN_COLOR})${RES}"
+[ -n "$Wifi_Password" ] && echo -e "${GREEN_COLOR}Default Wifi Password:${RES} ${BLUE_COLOR}$Wifi_Password{RES}" || echo -e "${GREEN_COLOR}Default Wifi Password: (${RES}${YELLOW_COLOR}12345678${RES}${GREEN_COLOR})${RES}"
+[ "$BUILD_FAST" = "y" ] && echo -e "${GREEN_COLOR}BUILD_FAST: true${RES}" || echo -e "${GREEN_COLOR}BUILD_FAST:${RES} ${YELLOW_COLOR}false${RES}"
+[ "$ENABLE_CCACHE" = "y" ] && echo -e "${GREEN_COLOR}ENABLE_CCACHE: true${RES}" || echo -e "${GREEN_COLOR}ENABLE_CCACHE:${RES} ${YELLOW_COLOR}false${RES}"
 
 # openwrt - releases
 [ "$(whoami)" = "runner" ] && group "source code"
@@ -96,7 +119,7 @@ git clone --depth=1 -b openwrt-24.10-6.6 https://github.com/padavanonly/immortal
 
 if [ -d openwrt ]; then
     cd openwrt
-    curl -Os $mirror/openwrt/patch/key.tar.gz && tar zxf key.tar.gz && rm -f key.tar.gz
+    curl -s $mirror/openwrt/files/feeds/feeds.conf.default > feeds.conf.default
 else
     echo -e "${RED_COLOR}Failed to download source code${RES}"
     exit 1
@@ -136,25 +159,50 @@ elif [ "$platform" = "rk3568" ]; then
     curl -s $mirror/openwrt/24-config-cetron-ct3003 > .config
 fi
 
+# gcc config
+echo -e "\n# gcc ${gcc_version}" >> .config
+echo -e "CONFIG_DEVEL=y" >> .config
+echo -e "CONFIG_TOOLCHAINOPTS=y" >> .config
+echo -e "CONFIG_GCC_USE_VERSION_${gcc_version}=y\n" >> .config
+[ "$(whoami)" = "runner" ] && endgroup
+
+# ccache
+if [ "$ENABLE_CCACHE" = "y" ]; then
+    echo "CONFIG_CCACHE=y" >> .config
+    [ "$(whoami)" = "runner" ] && echo "CONFIG_CCACHE_DIR=\"/builder/.ccache\"" >> .config
+    tools_suffix="_ccache"
+fi
+
 # Toolchain Cache
 if [ "$BUILD_FAST" = "y" ]; then
-    [ "$ENABLE_GLIBC" = "y" ] && LIBC=glibc || LIBC=musl
-    [ "$isCN" = "CN" ] && github_proxy="ghp.ci/" || github_proxy=""
+    TOOLCHAIN_URL=https://github.com/oppen321/openwrt_caches/releases/download/OpenWrt_Toolchain_Cache
     echo -e "\n${GREEN_COLOR}Download Toolchain ...${RES}"
-    PLATFORM_ID=""
-    [ -f /etc/os-release ] && source /etc/os-release
-    if [ "$PLATFORM_ID" = "platform:el9" ]; then
-        TOOLCHAIN_URL="http://127.0.0.1:8080"
-    else
-        TOOLCHAIN_URL=https://"$github_proxy"github.com/sbwml/openwrt_caches/releases/download/openwrt-24.10
-    fi
-    curl -L ${TOOLCHAIN_URL}/toolchain_${LIBC}_${toolchain_arch}_gcc-${gcc_version}${tools_suffix}.tar.zst -o toolchain.tar.zst $CURL_BAR
+    curl -L -k ${TOOLCHAIN_URL}/toolchain_gcc13_x86_64.tar.zst -o toolchain.tar.zst $CURL_BAR
     echo -e "\n${GREEN_COLOR}Process Toolchain ...${RES}"
     tar -I "zstd" -xf toolchain.tar.zst
     rm -f toolchain.tar.zst
     mkdir bin
     find ./staging_dir/ -name '*' -exec touch {} \; >/dev/null 2>&1
     find ./tmp/ -name '*' -exec touch {} \; >/dev/null 2>&1
+fi
+
+# init openwrt config
+rm -rf tmp/*
+make defconfig
+
+# Compile
+if [ "$BUILD_TOOLCHAIN" = "y" ]; then
+    echo -e "\r\n${GREEN_COLOR}Building Toolchain ...${RES}\r\n"
+    make -j$cores toolchain/compile || make -j$cores toolchain/compile V=s || exit 1
+    mkdir -p toolchain-cache
+    tar -I "zstd -19 -T$(nproc --all)" -cf toolchain-cache/toolchain_${toolchain_arch}_gcc-${gcc_version}.tar.zst ./{build_dir,dl,staging_dir,tmp}
+    echo -e "\n${GREEN_COLOR} Build success! ${RES}"
+    exit 0
+else
+    echo -e "\r\n${GREEN_COLOR}Building OpenWrt ...${RES}\r\n"
+    sed -i "/BUILD_DATE/d" package/base-files/files/usr/lib/os-release
+    sed -i "/BUILD_ID/aBUILD_DATE=\"$CURRENT_DATE\"" package/base-files/files/usr/lib/os-release
+    make -j$cores IGNORE_ERRORS="n m"
 fi
 
 # Compile time
