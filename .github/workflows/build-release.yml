@@ -122,10 +122,10 @@ jobs:
       id: compile
       continue-on-error: true
       run: |
-        export ${{ github.event.inputs.build_options }} LAN=${{ github.event.inputs.lan_addr }}
+        export ${{ github.event.inputs.build_options }} LAN=${{ github.event.inputs.lan_addr }} Wifi_Name=${{ github.event.inputs.wifi_name }} Wifi_Password=${{ github.event.inputs.wifi_password }}
         [ ${{ github.event.inputs.ccache }} = 'true' ] && export ENABLE_CCACHE=y
         [ -n ${{ github.event.inputs.root_password }} ] && export ROOT_PASSWORD="${{ github.event.inputs.root_password }}"
-        bash <(curl -sS http://127.0.0.1:8080/build.sh) ${{ env.build_version }} ${{ github.event.inputs.device }}
+        bash <(curl -sS http://127.0.0.1:8080/build.sh) ${{ github.event.inputs.device }}
 
     - name: Extensive logs after a failed compilation
       working-directory: /builder
