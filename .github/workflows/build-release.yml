@@ -191,7 +191,8 @@ jobs:
         elif [ "${{ github.event.inputs.device }}" = "Netcore-N60-pro" ]; then
           cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-netcore_n60-pro-squashfs-sysupgrade.bin rom/
         elif [ "${{ github.event.inputs.device }}" = "Netcore-N60-pro-512rom" ]; then
-          cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-netcore_n60-pro-squashfs-sysupgrade.bin rom/
+          mv openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-netcore_n60-pro-squashfs-sysupgrade.bin openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-netcore_n60-pro-512rom-squashfs-sysupgrade.bin
+          cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-netcore_n60-pro-512rom-squashfs-sysupgrade.bin rom/
         elif [ "${{ github.event.inputs.device }}" = "Cetron-CT3003" ]; then
           cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-cetron_ct3003-squashfs-sysupgrade.bin rom/
         fi
