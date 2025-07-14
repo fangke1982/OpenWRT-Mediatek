@@ -13,14 +13,6 @@ on:
           - 'Netcore-N60-pro'
           - 'Netcore-N60-pro-512rom'
           - 'Cetron-CT3003'
-      version:
-        description: 'Select the build version'
-        required: true
-        default: 'openwrt-24.10'
-        type: choice
-        options:
-          - 'openwrt-24.10'
-          - 'openwrt-21.02'
       ccache:
         description: 'Enable ccache (Use Cache to speed up next build)'
         type: boolean
