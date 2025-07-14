@@ -80,6 +80,9 @@ fi
 # wifi_password
 [ -n "$Wifi_Password" ] && export Wifi_Password="$Wifi_Password" || export Wifi_Password="12345678"
 
+# Password
+export ROOT_PASSWORD="$ROOT_PASSWORD"
+
 # platform
 case "$1" in
     "Netcore-N60") export platform="Netcore-N60" toolchain_arch="aarch64_cortex-a53" ;;
@@ -96,9 +99,6 @@ elif [ "$USE_GCC14" = "y" ]; then
 else
     export USE_GCC14=y gcc_version=14
 fi
-
-# Password
-export ROOT_PASSWORD="$ROOT_PASSWORD"
 
 # print version
 echo -e "\r\n${GREEN_COLOR}Building $branch${RES}\r\n"
