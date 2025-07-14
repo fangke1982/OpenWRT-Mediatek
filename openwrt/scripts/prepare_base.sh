@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # default LAN IP
 sed -i "s/192.168.6.1/$LAN/g" package/base-files/files/bin/config_generate
 
