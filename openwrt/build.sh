@@ -191,7 +191,7 @@ fi
 
 # Toolchain Cache
 if [ "$BUILD_FAST" = "y" ]; then
-    TOOLCHAIN_URL="https://github.com/oppen321/openwrt_caches/releases/download/OpenWrt_Toolchain_Cache"
+    TOOLCHAIN_URL="https://github.com/zhiern/openwrt_caches/releases/download/openwrt-24.10"
     echo -e "\n${GREEN_COLOR}Download Toolchain ...${RES}"
     curl -L -k "${TOOLCHAIN_URL}/toolchain_${toolchain_arch}_gcc-${gcc_version}.tar.zst" -o toolchain.tar.zst $CURL_BAR
     echo -e "\n${GREEN_COLOR}Process Toolchain ...${RES}"
