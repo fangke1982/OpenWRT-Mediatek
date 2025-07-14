@@ -112,6 +112,7 @@ sed -i 's|<a href="https://github.com/jerrykuku/luci-theme-argon" target="_blank
 git clone https://$github/gdy666/luci-app-lucky.git package/new/lucky
 
 # Mosdns
+rm -rf feeds/packages/net/mosdns
 git clone https://$github/sbwml/luci-app-mosdns -b v5 package/new/mosdns
 
 # openlist
