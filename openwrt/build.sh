@@ -114,11 +114,42 @@ curl -sO $mirror/openwrt/scripts/preset-mihimo-core.sh
 curl -sO $mirror/openwrt/scripts/preset-adguard-core.sh
 chmod 0755 *sh
 if [ "$platform" = "Netcore-N60-pro-512rom" ]; then
-bash 00-prepare_base.sh
-bash 01-prepare_base-mainline.sh
-bash 02-prepare_package.sh
-bash 04-fix_kmod.sh
-bash 05-fix-source.sh
+    bash preset-mihimo-core.sh
+    bash preset-adguard-core.sh
+fi
+bash prepare_base.sh
+
+# Load devices Config
+if [ "$platform" = "Netcore-N60" ]; then
+    curl -s $mirror/openwrt/24-config-netcore-n60 > .config
+elif [ "$platform" = "bcm53xx" ]; then
+    curl -s $mirror/openwrt/24-config-netcore-n60-pro > .config
+else
+    curl -s $mirror/openwrt/24-config-netcore-n60-pro-512rom > .config
+elif [ "$platform" = "rk3568" ]; then
+    curl -s $mirror/openwrt/24-config-cetron-ct3003 > .config
+fi
+
+# Toolchain Cache
+if [ "$BUILD_FAST" = "y" ]; then
+    [ "$ENABLE_GLIBC" = "y" ] && LIBC=glibc || LIBC=musl
+    [ "$isCN" = "CN" ] && github_proxy="ghp.ci/" || github_proxy=""
+    echo -e "\n${GREEN_COLOR}Download Toolchain ...${RES}"
+    PLATFORM_ID=""
+    [ -f /etc/os-release ] && source /etc/os-release
+    if [ "$PLATFORM_ID" = "platform:el9" ]; then
+        TOOLCHAIN_URL="http://127.0.0.1:8080"
+    else
+        TOOLCHAIN_URL=https://"$github_proxy"github.com/sbwml/openwrt_caches/releases/download/openwrt-24.10
+    fi
+    curl -L ${TOOLCHAIN_URL}/toolchain_${LIBC}_${toolchain_arch}_gcc-${gcc_version}${tools_suffix}.tar.zst -o toolchain.tar.zst $CURL_BAR
+    echo -e "\n${GREEN_COLOR}Process Toolchain ...${RES}"
+    tar -I "zstd" -xf toolchain.tar.zst
+    rm -f toolchain.tar.zst
+    mkdir bin
+    find ./staging_dir/ -name '*' -exec touch {} \; >/dev/null 2>&1
+    find ./tmp/ -name '*' -exec touch {} \; >/dev/null 2>&1
+fi
 
 # 修改默认ip
 sed -i "s/192.168.6.1/10.0.0.1/g" package/base-files/files/bin/config_generate
