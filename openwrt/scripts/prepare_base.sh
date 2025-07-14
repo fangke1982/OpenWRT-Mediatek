@@ -1,5 +1,5 @@
-# 修改默认ip
-sed -i "s/192.168.6.1/10.0.0.1/g" package/base-files/files/bin/config_generate
+# default LAN IP
+sed -i "s/192.168.6.1/$LAN/g" package/base-files/files/bin/config_generate
 
 # 修改名称
 sed -i 's/ImmortalWrt/ZeroWrt/' package/base-files/files/bin/config_generate
