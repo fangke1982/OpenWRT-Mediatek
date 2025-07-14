@@ -24,8 +24,13 @@ endgroup() {
 #   Mediatek OpenWrt Build Script   #
 #####################################
 
-# 脚本URL
-export mirror=http://127.0.0.1:8080
+# script url
+export mirror=https://raw.githubusercontent.com/zhiern/OpenWRT-Mediatek/refs/heads/openwrt-24.10
+
+# github actions - caddy server
+if [ "$(whoami)" = "runner" ]
+    export mirror=http://127.0.0.1:8080
+fi
 
 # GitHub镜像
 export github="github.com"
