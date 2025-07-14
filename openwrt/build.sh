@@ -150,3 +150,19 @@ if [ "$BUILD_FAST" = "y" ]; then
     find ./staging_dir/ -name '*' -exec touch {} \; >/dev/null 2>&1
     find ./tmp/ -name '*' -exec touch {} \; >/dev/null 2>&1
 fi
+
+# Compile time
+endtime=`date +'%Y-%m-%d %H:%M:%S'`
+start_seconds=$(date --date="$starttime" +%s);
+end_seconds=$(date --date="$endtime" +%s);
+SEC=$((end_seconds-start_seconds));
+
+if [ -f bin/targets/*/*/sha256sums ]; then
+    echo -e "${GREEN_COLOR} Build success! ${RES}"
+    echo -e " Build time: $(( SEC / 3600 ))h,$(( (SEC % 3600) / 60 ))m,$(( (SEC % 3600) % 60 ))s"
+else
+    echo -e "\n${RED_COLOR} Build error... ${RES}"
+    echo -e " Build time: $(( SEC / 3600 ))h,$(( (SEC % 3600) / 60 ))m,$(( (SEC % 3600) % 60 ))s"
+    echo
+    exit 1
+fi
