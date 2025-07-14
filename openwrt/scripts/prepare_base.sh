@@ -3,8 +3,15 @@
 # default LAN IP
 sed -i "s/192.168.6.1/$LAN/g" package/base-files/files/bin/config_generate
 
-# 修改名称
+# default name
 sed -i 's/ImmortalWrt/ZeroWrt/' package/base-files/files/bin/config_generate
+
+# default password
+if [ -n "$ROOT_PASSWORD" ]; then
+    # sha256 encryption
+    default_password=$(openssl passwd -5 $ROOT_PASSWORD)
+    sed -i "s|^root:[^:]*:|root:${default_password}:|" package/base-files/files/etc/shadow
+fi
 
 # WiFi
 sed -i "s/MT7986_AX6000_2.4G/ZeroWrt-2.4G/g" package/mtk/drivers/wifi-profile/files/mt7986/mt7986-ax6000.dbdc.b0.dat
@@ -17,7 +24,7 @@ sed -i "s/MT7981_AX3000_5G/ZeroWrt-5G/g" package/mtk/drivers/wifi-profile/files/
 sed -i "s/ImmortalWrt-2.4G/ZeroWrt-2.4G/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
 sed -i "s/ImmortalWrt-5G/ZeroWrt-5G/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
 
-# 版本设置
+# Version settings
 cat << 'EOF' >> feeds/luci/modules/luci-mod-status/ucode/template/admin_status/index.ut
 <script>
 function addLinks() {
@@ -35,7 +42,7 @@ document.addEventListener("DOMContentLoaded", addLinks);
 </script>
 EOF
 
-# 加入作者信息
+# Add author information
 sed -i "s/DISTRIB_DESCRIPTION='*.*'/DISTRIB_DESCRIPTION='ZeroWrt-$(date +%Y%m%d)'/g"  package/base-files/files/etc/openwrt_release
 sed -i "s/DISTRIB_REVISION='*.*'/DISTRIB_REVISION=' By OPPEN321'/g" package/base-files/files/etc/openwrt_release
 sed -i "s|^OPENWRT_RELEASE=\".*\"|OPENWRT_RELEASE=\"ZeroWrt 标准版 @R$(date +%Y%m%d) BY OPPEN321\"|" package/base-files/files/usr/lib/os-release
@@ -43,7 +50,7 @@ sed -i "s|^OPENWRT_RELEASE=\".*\"|OPENWRT_RELEASE=\"ZeroWrt 标准版 @R$(date +
 # Emortal
 curl -s $mirror/Customize/emortal/99-default-settings > package/emortal/default-settings/files/99-default-settings
 
-# 加载补丁文件
+# Load patch file
 curl -sL $mirror/openwrt/patch/0001-Modify-version-information.patch | patch -p1
 curl -sL $mirror/openwrt/patch/0001-netcore-n60-pro-512-flash-version.patch | patch -p1
 curl -sL $mirror/openwrt/patch/0001-mediatek-Device-Cetron-ct3003-patch-file.patch | patch -p1
@@ -89,7 +96,7 @@ rm -rf feeds/luci/applications/luci-app-argon-config
 git clone https://$github/jerrykuku/luci-app-argon-config.git package/new/luci-app-argon-config
 sed -i "s/bing/none/g" package/new/luci-app-argon-config/root/etc/config/argon
 
-# 主题设置
+# Theme settings
 sed -i 's|<a class="luci-link" href="https://github.com/openwrt/luci" target="_blank">Powered by <%= ver.luciname %> (<%= ver.luciversion %>)</a>|<a class="luci-link" href="https://www.kejizero.online" target="_blank">探索无限</a>|g' package/new/luci-theme-argon/luasrc/view/themes/argon/footer.htm
 sed -i 's|<a href="https://github.com/jerrykuku/luci-theme-argon" target="_blank">ArgonTheme <%# vPKG_VERSION %></a>|<a href="https://github.com/zhiern/OpenWRT" target="_blank">ZeroWrt</a> |g' package/new/luci-theme-argon/luasrc/view/themes/argon/footer.htm
 sed -i 's|<a class="luci-link" href="https://github.com/openwrt/luci" target="_blank">Powered by <%= ver.luciname %> (<%= ver.luciversion %>)</a>|<a class="luci-link" href="https://www.kejizero.online" target="_blank">探索无限</a>|g' package/new/luci-theme-argon/luasrc/view/themes/argon/footer_login.htm
