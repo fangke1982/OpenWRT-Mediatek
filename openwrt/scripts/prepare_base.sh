@@ -25,11 +25,10 @@ sed -i "s/ImmortalWrt-2.4G/$Wifi_Name-2.4G/g" package/mtk/applications/mtwifi-cf
 sed -i "s/ImmortalWrt-5G/$Wifi_Name-5G/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
 
 # default wifi password
-sed -i '/^[[:space:]]*set wireless\.default_.*\.encryption=none/ {
-s/=none/=psk2+ccmp/
-a\
-					set wireless.default_${dev}.key=${Wifi_Password}
-}' package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
+sed -i 's/^\(\s*set wireless\.default_.*\.encryption=\)none$/\1psk2+ccmp/' package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
+sed -i $'/^\\s*set wireless\\.default_.*\\.encryption=psk2+ccmp$/a\\\t\t\t\t\tset wireless.default_${dev}.key=12345678' package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
+sed -i "s/12345678/$Wifi_Password/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
+
 
 # Version settings
 cat << 'EOF' >> feeds/luci/modules/luci-mod-status/ucode/template/admin_status/index.ut
