@@ -1,4 +1,28 @@
-#!/bin/bash
+#!/bin/bash -e
+export RED_COLOR='\e[1;31m'
+export GREEN_COLOR='\e[1;32m'
+export YELLOW_COLOR='\e[1;33m'
+export BLUE_COLOR='\e[1;34m'
+export PINK_COLOR='\e[1;35m'
+export SHAN='\e[1;33;5m'
+export RES='\e[0m'
+
+GROUP=
+group() {
+    endgroup
+    echo "::group::  $1"
+    GROUP=1
+}
+endgroup() {
+    if [ -n "$GROUP" ]; then
+        echo "::endgroup::"
+    fi
+    GROUP=
+}
+
+#####################################
+#   Mediatek OpenWrt Build Script   #
+#####################################
 
 # 脚本URL
 export mirror=http://127.0.0.1:8080
@@ -8,6 +32,78 @@ export github="github.com"
 
 # 私有Gitea
 export gitea=git.kejizero.online/zhao
+
+# Check root
+if [ "$(id -u)" = "0" ]; then
+    echo -e "${RED_COLOR}Building with root user is not supported.${RES}"
+    exit 1
+fi
+
+# Start time
+starttime=`date +'%Y-%m-%d %H:%M:%S'`
+
+# Cpus
+cores=`expr $(nproc --all) + 1`
+
+# $CURL_BAR
+if curl --help | grep progress-bar >/dev/null 2>&1; then
+    CURL_BAR="--progress-bar";
+fi
+
+if [ -z "$1" ] || [ "$1" != "Netcore-N60" -a "$1" != "Netcore-N60-pro" -a "$1" != "Netcore-N60-pro-512rom" -a "$1" != "Cetron-CT3003" ]; then
+    echo -e "\n${RED_COLOR}Building type not specified or incorrect.${RES}\n"
+    echo -e "Usage:\n"
+    echo -e "Netcore-N60 releases: ${GREEN_COLOR}bash build.sh Netcore-N60${RES}"
+    echo -e "Netcore-N60-pro releases: ${GREEN_COLOR}bash build.sh Netcore-N60-pro${RES}"
+    echo -e "Netcore-N60-pro-512rom releases: ${GREEN_COLOR}bash build.sh Netcore-N60-pro-512rom${RES}"
+    echo -e "Cetron-CT3003 releases: ${GREEN_COLOR}bash build.sh Cetron-CT3003${RES}"
+    exit 1
+fi
+
+# lan
+[ -n "$LAN" ] && export LAN=$LAN || export LAN=10.0.0.1
+
+# platform
+[ "$1" = "Netcore-N60" ] && export platform="Netcore-N60" toolchain_arch="aarch64_cortex-a53"
+[ "$1" = "Netcore-N60-pro" ] && export platform="Netcore-N60-pro" toolchain_arch="aarch64_cortex-a53"
+[ "$1" = "Netcore-N60-pro-512rom" ] && export platform="Netcore-N60-pro-512rom" toolchain_arch="aarch64_cortex-a53"
+[ "$1" = "Cetron-CT3003" ] && export platform="Cetron-CT3003" toolchain_arch="aarch64_cortex-a53"
+
+# Passwaor
+export ROOT_PASSWORD=$ROOT_PASSWORD
+
+# print version
+echo -e "\r\n${GREEN_COLOR}Building $branch${RES}\r\n"
+if [ "$platform" = "Netcore-N60" ]; then
+    echo -e "${GREEN_COLOR}Model: Netcore-N60${RES}"
+elif [ "$platform" = "Netcore-N60-pro" ]; then
+    echo -e "${GREEN_COLOR}Model: Netcore-N60-pro${RES}"
+elif [ "$platform" = "Netcore-N60-pro-512rom" ]; then
+    echo -e "${GREEN_COLOR}Model: Netcore-N60-pro-512rom${RES}"
+elif [ "$platform" = "Cetron-CT3003" ]; then
+    echo -e "${GREEN_COLOR}Model: Cetron-CT3003${RES}"
+fi
+
+# openwrt - releases
+[ "$(whoami)" = "runner" ] && group "source code"
+git clone --depth=1 -b openwrt-24.10-6.6 https://github.com/padavanonly/immortalwrt-mt798x-6.6 openwrt
+
+if [ -d openwrt ]; then
+    cd openwrt
+    curl -Os $mirror/openwrt/patch/key.tar.gz && tar zxf key.tar.gz && rm -f key.tar.gz
+else
+    echo -e "${RED_COLOR}Failed to download source code${RES}"
+    exit 1
+fi
+
+# Init feeds
+[ "$(whoami)" = "runner" ] && group "feeds update -a"
+./scripts/feeds update -a
+[ "$(whoami)" = "runner" ] && endgroup
+
+[ "$(whoami)" = "runner" ] && group "feeds install -a"
+./scripts/feeds install -a
+[ "$(whoami)" = "runner" ] && endgroup
 
 # 修改默认ip
 sed -i "s/192.168.6.1/10.0.0.1/g" package/base-files/files/bin/config_generate
@@ -53,17 +149,17 @@ sed -i "s|^OPENWRT_RELEASE=\".*\"|OPENWRT_RELEASE=\"ZeroWrt 标准版 @R$(date +
 curl -s $mirror/Customize/emortal/99-default-settings > package/emortal/default-settings/files/99-default-settings
 
 # 加载补丁文件
-curl -sL $mirror/Patch/0001-Modify-version-information.patch | patch -p1
-curl -sL $mirror/Patch/0001-netcore-n60-pro-512-flash-version.patch | patch -p1
-curl -sL $mirror/Patch/0001-mediatek-Device-Cetron-ct3003-patch-file.patch | patch -p1
+curl -sL $mirror/openwrt/patch/0001-Modify-version-information.patch | patch -p1
+curl -sL $mirror/openwrt/patch/0001-netcore-n60-pro-512-flash-version.patch | patch -p1
+curl -sL $mirror/openwrt/patch/0001-mediatek-Device-Cetron-ct3003-patch-file.patch | patch -p1
 pushd feeds/luci
-    curl -s $mirror/Patch/0001-luci-mod-system-add-modal-overlay-dialog-to-reboot.patch | patch -p1
-    curl -s $mirror/Patch/0002-luci-mod-status-displays-actual-process-memory-usage.patch | patch -p1
-    curl -s $mirror/Patch/0003-luci-mod-status-storage-index-applicable-only-to-val.patch | patch -p1
-    curl -s $mirror/Patch/0004-luci-mod-status-firewall-disable-legacy-firewall-rul.patch | patch -p1
-    curl -s $mirror/Patch/0005-luci-mod-system-add-refresh-interval-setting.patch | patch -p1
-    curl -s $mirror/Patch/0006-luci-mod-system-mounts-add-docker-directory-mount-po.patch | patch -p1
-    curl -s $mirror/Patch/0007-luci-mod-system-add-ucitrack-luci-mod-system-zram.js.patch | patch -p1
+    curl -s $mirror/openwrt/patch/0001-luci-mod-system-add-modal-overlay-dialog-to-reboot.patch | patch -p1
+    curl -s $mirror/openwrt/patch/0002-luci-mod-status-displays-actual-process-memory-usage.patch | patch -p1
+    curl -s $mirror/openwrt/patch/0003-luci-mod-status-storage-index-applicable-only-to-val.patch | patch -p1
+    curl -s $mirror/openwrt/patch/0004-luci-mod-status-firewall-disable-legacy-firewall-rul.patch | patch -p1
+    curl -s $mirror/openwrt/patch/0005-luci-mod-system-add-refresh-interval-setting.patch | patch -p1
+    curl -s $mirror/openwrt/patch/0006-luci-mod-system-mounts-add-docker-directory-mount-po.patch | patch -p1
+    curl -s $mirror/openwrt/patch/0007-luci-mod-system-add-ucitrack-luci-mod-system-zram.js.patch | patch -p1
 popd
 
 # golang 1.25
