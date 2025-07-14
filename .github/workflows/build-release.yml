@@ -188,24 +188,12 @@ jobs:
         mkdir -p rom info
         if [ "${{ github.event.inputs.device }}" = "Netcore-N60" ]; then
           cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-netcore_n60-squashfs-sysupgrade.bin rom/
-          cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic.manifest info/manifest.txt
-          cp -a openwrt/bin/targets/mediatek/filogic/config.buildinfo info/config.buildinfo
-          cd rom && sha256sum *gz > ../info/sha256sums.txt
         elif [ "${{ github.event.inputs.device }}" = "Netcore-N60-pro" ]; then
           cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-netcore_n60-pro-squashfs-sysupgrade.bin rom/
-          cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic.manifest info/manifest.txt
-          cp -a openwrt/bin/targets/mediatek/filogic/config.buildinfo info/config.buildinfo
-          cd rom && sha256sum *gz > ../info/sha256sums.txt
         elif [ "${{ github.event.inputs.device }}" = "Netcore-N60-pro-512rom" ]; then
           cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-netcore_n60-pro-squashfs-sysupgrade.bin rom/
-          cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic.manifest info/manifest.txt
-          cp -a openwrt/bin/targets/mediatek/filogic/config.buildinfo info/config.buildinfo
-          cd rom && sha256sum *gz > ../info/sha256sums.txt
         elif [ "${{ github.event.inputs.device }}" = "Cetron-CT3003" ]; then
           cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-cetron_ct3003-squashfs-sysupgrade.bin rom/
-          cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic.manifest info/manifest.txt
-          cp -a openwrt/bin/targets/mediatek/filogic/config.buildinfo info/config.buildinfo
-          cd rom && sha256sum * > ../info/sha256sums.txt
         fi
 
     - name: Upload artifacts
