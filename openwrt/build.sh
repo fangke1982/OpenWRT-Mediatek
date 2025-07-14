@@ -51,7 +51,12 @@ if curl --help | grep progress-bar >/dev/null 2>&1; then
     CURL_BAR="--progress-bar"
 fi
 
-if [ -z "$1" ] || [ "$1" != "Netcore-N60" ] && [ "$1" != "Netcore-N60-pro" ] && [ "$1" != "Netcore-N60-pro-512rom" ] && [ "$1" != "Cetron-CT3003" ]; then
+# Check if the device type is valid
+if [ "$1" != "Netcore-N60" ] && 
+   [ "$1" != "Netcore-N60-pro" ] && 
+   [ "$1" != "Netcore-N60-pro-512rom" ] && 
+   [ "$1" != "Cetron-CT3003" ]; then
+   
     echo -e "\n${RED_COLOR}Building type not specified or incorrect.${RES}\n"
     echo -e "Usage:\n"
     echo -e "Netcore-N60 releases: ${GREEN_COLOR}bash build.sh Netcore-N60${RES}"
