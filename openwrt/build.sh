@@ -109,7 +109,7 @@ if [ "$USE_GCC13" = "y" ]; then
 elif [ "$USE_GCC14" = "y" ]; then
     export USE_GCC14=y gcc_version=14
 else
-    export USE_GCC14=y gcc_version=14
+    export USE_GCC13=y gcc_version=13
 fi
 
 # print version
