@@ -63,6 +63,12 @@ fi
 # lan
 [ -n "$LAN" ] && export LAN=$LAN || export LAN=10.0.0.1
 
+# wifi_name
+[ -n "$Wifi_Name" ] && export Wifi_Name=$Wifi_Name || export Wifi_Name=ZeroWrt
+
+# wifi_password
+[ -n "$Wifi_Password" ] && export Wifi_Password=$Wifi_Password || export Wifi_Password=12345678
+
 # platform
 [ "$1" = "Netcore-N60" ] && export platform="Netcore-N60" toolchain_arch="aarch64_cortex-a53"
 [ "$1" = "Netcore-N60-pro" ] && export platform="Netcore-N60-pro" toolchain_arch="aarch64_cortex-a53"
