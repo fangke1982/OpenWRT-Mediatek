@@ -105,6 +105,21 @@ fi
 ./scripts/feeds install -a
 [ "$(whoami)" = "runner" ] && endgroup
 
+###############################################
+echo -e "\n${GREEN_COLOR}Patching ...${RES}\n"
+
+# scripts
+curl -sO $mirror/openwrt/scripts/prepare_base.sh
+curl -sO $mirror/openwrt/scripts/preset-mihimo-core.sh
+curl -sO $mirror/openwrt/scripts/preset-adguard-core.sh
+chmod 0755 *sh
+if [ "$platform" = "Netcore-N60-pro-512rom" ]; then
+bash 00-prepare_base.sh
+bash 01-prepare_base-mainline.sh
+bash 02-prepare_package.sh
+bash 04-fix_kmod.sh
+bash 05-fix-source.sh
+
 # 修改默认ip
 sed -i "s/192.168.6.1/10.0.0.1/g" package/base-files/files/bin/config_generate
 
