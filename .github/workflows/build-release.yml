@@ -86,6 +86,27 @@ jobs:
     - name: Install LLVM
       uses: sbwml/actions@install-llvm
 
+    - name: Restore Cached
+      if: ${{ github.event.inputs.ccache == 'true' && github.event.inputs.device != 'Netcore-N60' && github.event.inputs.device != 'Netcore-N60-pro' }} && github.event.inputs.device != 'Netcore-N60-pro-512rom' && github.event.inputs.device != 'Cetron-CT3003'
+      uses: actions/cache/restore@v4
+      with:
+        path: /builder/.ccache
+        key: openwrt-24.10-${{ github.event.inputs.device }}-ccache
+
+    - name: Restore Cached (releases)
+      if: ${{ github.event.inputs.ccache == 'true' && github.event.inputs.device != 'Netcore-N60' && github.event.inputs.device != 'Netcore-N60-pro' }} && github.event.inputs.device != 'Netcore-N60-pro-512rom' && github.event.inputs.device != 'Cetron-CT3003'
+      continue-on-error: true
+      working-directory: /builder
+      run: |
+        curl -s https://api.github.com/repos/${{ github.repository }}/releases | grep 'browser_download_url' | grep ccache | grep ${{ github.event.inputs.device }} | awk -F '"' '{print $4}' | grep -v '^$' | xargs -n 1 wget -q
+        cat ${{ github.event.inputs.device }}.tar.* | tar -xf - || true
+        rm -rf ${{ github.event.inputs.device }}.tar.* || true
+        [ -d .ccache ] && cache_size=$(du -sb .ccache | awk '{print $1}') || cache_size=0
+        cache_size_mb=$(echo "scale=0; ${cache_size} / (1024 * 1024)" | bc)
+        echo "Cache Size: ~${cache_size_mb} MB (${cache_size} B)"
+        echo "Cache restored successfully"
+        echo "Cache restored from key: ${{ github.event.inputs.device }}"
+        
     - name: Compile OpenWrt
       working-directory: /builder
       id: compile
@@ -103,6 +124,47 @@ jobs:
         cd openwrt
         make V=s
 
+    - name: Delete Cached
+      if: ${{ github.event.inputs.ccache == 'true' && github.event.inputs.device != 'Netcore-N60' && github.event.inputs.device != 'Netcore-N60-pro' }} && github.event.inputs.device != 'Netcore-N60-pro-512rom' && github.event.inputs.device != 'Cetron-CT3003'
+      continue-on-error: true
+      working-directory: /builder
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_REPO: ${{ github.repository }}
+      run: |
+        gh cache delete openwrt-24.10-${{ github.event.inputs.device }}-ccache || true
+
+    - name: Save Cached
+      if: ${{ github.event.inputs.ccache == 'true' && github.event.inputs.device != 'Netcore-N60' && github.event.inputs.device != 'Netcore-N60-pro' }} && github.event.inputs.device != 'Netcore-N60-pro-512rom' && github.event.inputs.device != 'Cetron-CT3003'
+      continue-on-error: true
+      uses: actions/cache/save@v4
+      with:
+        path: /builder/.ccache
+        key: openwrt-24.10-${{ github.event.inputs.device }}-ccache
+
+    - name: Create ccache tar files
+      if: ${{ github.event.inputs.ccache == 'true' && github.event.inputs.device != 'Netcore-N60' && github.event.inputs.device != 'Netcore-N60-pro' }} && github.event.inputs.device != 'Netcore-N60-pro-512rom' && github.event.inputs.device != 'Cetron-CT3003'
+      continue-on-error: true
+      working-directory: /builder
+      run: |
+        mkdir -p ccache
+        tar cf - .ccache | split -d -b 1800m - ccache/${{ github.event.inputs.device }}.tar.
+
+    - name: Upload Cached (releases - ccache)
+      if: ${{ github.event.inputs.ccache == 'true' && github.event.inputs.device != 'Netcore-N60' && github.event.inputs.device != 'Netcore-N60-pro' }} && github.event.inputs.device != 'Netcore-N60-pro-512rom' && github.event.inputs.device != 'Cetron-CT3003'
+      continue-on-error: true
+      uses: ncipollo/release-action@v1.14.0
+      with:
+        name: ccache
+        allowUpdates: true
+        tag: ccache
+        commit: master
+        replacesArtifacts: true
+        prerelease: true
+        token: ${{ secrets.GITHUB_TOKEN }}
+        artifacts: |
+          ${{ env.build_dir }}/ccache/*
+          
     - name: Prepare Firmware Files
       working-directory: /builder
       run: |
