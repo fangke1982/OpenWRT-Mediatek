@@ -148,15 +148,16 @@ fi
 echo -e "\n${GREEN_COLOR}Patching ...${RES}\n"
 
 # scripts
-curl -sO "$mirror/openwrt/scripts/prepare_base.sh"
-curl -sO "$mirror/openwrt/scripts/preset-mihimo-core.sh"
-curl -sO "$mirror/openwrt/scripts/preset-adguard-core.sh"
+curl -sO "$mirror/openwrt/scripts/00-prepare_base.sh"
+curl -sO "$mirror/openwrt/scripts/01-preset_mihimo_core.sh"
+curl -sO "$mirror/openwrt/scripts/02-preset_adguard_core.sh"
 chmod 0755 ./*sh
 if [ "$platform" = "Netcore-N60-pro-512rom" ]; then
-    bash preset-mihimo-core.sh
-    bash preset-adguard-core.sh
+    bash 01-preset_mihimo_core.sh
+    bash 02-preset_adguard_core.sh
 fi
-bash prepare_base.sh
+bash 00-prepare_base.sh
+rm -f 0*-*.sh
 
 # Load devices Config
 case "$platform" in
