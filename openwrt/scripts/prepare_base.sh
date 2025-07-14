@@ -6,6 +6,9 @@ sed -i "s/192.168.6.1/$LAN/g" package/base-files/files/bin/config_generate
 # default name
 sed -i 's/ImmortalWrt/ZeroWrt/' package/base-files/files/bin/config_generate
 
+# banner
+curl -s $mirror/files/base-files/banner > package/base-files/files/etc/banner
+
 # default password
 if [ -n "$ROOT_PASSWORD" ]; then
     # sha256 encryption
@@ -48,7 +51,7 @@ sed -i "s/DISTRIB_REVISION='*.*'/DISTRIB_REVISION=' By OPPEN321'/g" package/base
 sed -i "s|^OPENWRT_RELEASE=\".*\"|OPENWRT_RELEASE=\"ZeroWrt 标准版 @R$(date +%Y%m%d) BY OPPEN321\"|" package/base-files/files/usr/lib/os-release
 
 # Emortal
-curl -s $mirror/Customize/emortal/99-default-settings > package/emortal/default-settings/files/99-default-settings
+curl -s $mirror/files/emortal/99-default-settings > package/emortal/default-settings/files/99-default-settings
 
 # Load patch file
 curl -sL $mirror/openwrt/patch/0001-Modify-version-information.patch | patch -p1
@@ -85,11 +88,11 @@ git clone -b openwrt-24.10 https://$gitea/openwrt_helloworld package/new/hellowo
 # argon
 rm -rf feeds/luci/themes/luci-theme-argon
 git clone https://$github/jerrykuku/luci-theme-argon.git package/new/luci-theme-argon
-curl -s $mirror/Customize/argon/bg1.jpg > package/new/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
-curl -s $mirror/Customize/argon/iconfont.ttf > package/new/luci-theme-argon/htdocs/luci-static/argon/fonts/iconfont.ttf
-curl -s $mirror/Customize/argon/iconfont.woff > package/new/luci-theme-argon/htdocs/luci-static/argon/fonts/iconfont.woff
-curl -s $mirror/Customize/argon/iconfont.woff2 > package/new/luci-theme-argon/htdocs/luci-static/argon/fonts/iconfont.woff2
-curl -s $mirror/Customize/argon/cascade.css > package/new/luci-theme-argon/htdocs/luci-static/argon/css/cascade.css
+curl -s $mirror/files/argon/bg1.jpg > package/new/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
+curl -s $mirror/files/argon/iconfont.ttf > package/new/luci-theme-argon/htdocs/luci-static/argon/fonts/iconfont.ttf
+curl -s $mirror/files/argon/iconfont.woff > package/new/luci-theme-argon/htdocs/luci-static/argon/fonts/iconfont.woff
+curl -s $mirror/files/argon/iconfont.woff2 > package/new/luci-theme-argon/htdocs/luci-static/argon/fonts/iconfont.woff2
+curl -s $mirror/files/argon/cascade.css > package/new/luci-theme-argon/htdocs/luci-static/argon/css/cascade.css
 
 # argon-config
 rm -rf feeds/luci/applications/luci-app-argon-config
