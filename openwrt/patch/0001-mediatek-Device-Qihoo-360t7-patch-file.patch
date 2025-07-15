@@ -1,0 +1,58 @@
+From 41b8512a74e027dd399f229fb84749b5d9ba5690 Mon Sep 17 00:00:00 2001
+From: OPPEN321 <zj18139624826@gmail.com>
+Date: Tue, 15 Jul 2025 09:24:57 +0800
+Subject: [PATCH] mediatek: Device Qihoo-360t7 patch file
+
+Signed-off-by: OPPEN321 <zj18139624826@gmail.com>
+---
+ target/linux/mediatek/dts/mt7981b-qihoo-360t7.dts | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/target/linux/mediatek/dts/mt7981b-qihoo-360t7.dts b/target/linux/mediatek/dts/mt7981b-qihoo-360t7.dts
+index f0865af7fe..671bf809a1 100644
+--- a/target/linux/mediatek/dts/mt7981b-qihoo-360t7.dts
++++ b/target/linux/mediatek/dts/mt7981b-qihoo-360t7.dts
+@@ -115,7 +115,6 @@
+ 			partition@0 {
+ 				label = "bl2";
+ 				reg = <0x0000000 0x0100000>;
+-				read-only;
+ 			};
+ 
+ 			partition@100000 {
+@@ -126,13 +125,11 @@
+ 			factory: partition@180000 {
+ 				label = "Factory";
+ 				reg = <0x0180000 0x0200000>;
+-				read-only;
+ 			};
+ 
+ 			partition@380000 {
+ 				label = "fip";
+ 				reg = <0x0380000 0x0200000>;
+-				read-only;
+ 			};
+ 
+ 			partition@580000 {
+@@ -143,19 +140,16 @@
+ 			partition@7180000 {
+ 				label = "config";
+ 				reg = <0x7180000 0x0100000>;
+-				read-only;
+ 			};
+ 
+ 			partition@7280000 {
+ 				label = "factory";
+ 				reg = <0x7280000 0x0080000>;
+-				read-only;
+ 			};
+ 
+ 			partition@7300000 {
+ 				label = "log";
+ 				reg = <0x7300000 0x0700000>;
+-				read-only;
+ 			};
+ 		};
+ 	};
+-- 
+2.43.0
