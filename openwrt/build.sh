@@ -164,7 +164,6 @@ curl -sO "$mirror/openwrt/scripts/00-prepare_base.sh"
 curl -sO "$mirror/openwrt/scripts/01-prepare_package.sh"
 curl -sO "$mirror/openwrt/scripts/02-prepare_adguard_core.sh"
 curl -sO "$mirror/openwrt/scripts/03-preset_mihimo_core.sh"
-curl -sO "$mirror/openwrt/scripts/04-convert_translation.sh"
 chmod 0755 ./*sh
 if [ "$platform" = "Netcore-N60-pro-512rom" ]; then
     bash 02-prepare_adguard_core.sh
@@ -172,7 +171,6 @@ if [ "$platform" = "Netcore-N60-pro-512rom" ]; then
 fi
 bash 00-prepare_base.sh
 bash 01-prepare_package.sh
-bash 04-convert_translation.sh
 rm -f 0*-*.sh
 
 # Load devices Config
