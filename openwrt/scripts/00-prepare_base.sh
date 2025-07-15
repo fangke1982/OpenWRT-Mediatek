@@ -61,6 +61,7 @@ curl -s $mirror/files/emortal/99-default-settings > package/emortal/default-sett
 curl -sL $mirror/openwrt/patch/0001-Modify-version-information.patch | patch -p1
 curl -sL $mirror/openwrt/patch/0001-netcore-n60-pro-512-flash-version.patch | patch -p1
 curl -sL $mirror/openwrt/patch/0001-mediatek-Device-Cetron-ct3003-patch-file.patch | patch -p1
+curl -sL $mirror/openwrt/patch/0001-mediatek-Device-Qihoo-360t7-patch-file.patch | patch -p1
 pushd feeds/luci
     curl -s $mirror/openwrt/patch/0001-luci-mod-system-add-modal-overlay-dialog-to-reboot.patch | patch -p1
     curl -s $mirror/openwrt/patch/0002-luci-mod-status-displays-actual-process-memory-usage.patch | patch -p1
