@@ -186,15 +186,14 @@ case "$platform" in
 esac
 
 # gcc config
-{
-    echo -e "\n# gcc ${gcc_version}"
-    echo "CONFIG_DEVEL=y"
-    echo "CONFIG_TOOLCHAINOPTS=y"
-    echo "CONFIG_GCC_VERSION_${gcc_version}=y"
-    echo
-} >> .config
-
+echo -e "\n# gcc ${gcc_version}" >> .config
+echo -e "CONFIG_DEVEL=y" >> .config
+echo -e "CONFIG_TOOLCHAINOPTS=y" >> .config
+echo -e "CONFIG_GCC_USE_VERSION_${gcc_version}=y\n" >> .config
 [ "$(whoami)" = "runner" ] && endgroup
+
+# uhttpd
+[ "$ENABLE_UHTTPD" = "y" ] && sed -i '/nginx/d' .config && echo 'CONFIG_PACKAGE_ariang=y' >> .config
 
 # ccache
 if [ "$ENABLE_CCACHE" = "y" ]; then
