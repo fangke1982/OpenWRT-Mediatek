@@ -55,10 +55,14 @@ sed -i "s|^OPENWRT_RELEASE=\".*\"|OPENWRT_RELEASE=\"ZeroWrt 标准版 @R$(date +
 curl -s $mirror/files/emortal/99-default-settings > package/emortal/default-settings/files/99-default-settings
 
 # Load patch file
+if [ "$platform" = "Netcore-N60-pro-512rom" ]; then
+    curl -sL $mirror/openwrt/patch/0001-netcore-n60-pro-512-flash-version.patch | patch -p1
+elif [ "$platform" = "Cetron-CT3003" ]; then
+    curl -sL $mirror/openwrt/patch/0001-mediatek-Device-Cetron-ct3003-patch-file.patch | patch -p1
+elif [ "$platform" = "Qihoo-360t7" ]; then
+    curl -sL $mirror/openwrt/patch/0001-mediatek-Device-Qihoo-360t7-patch-file.patch | patch -p1
+fi
 curl -sL $mirror/openwrt/patch/0001-Modify-version-information.patch | patch -p1
-curl -sL $mirror/openwrt/patch/0001-netcore-n60-pro-512-flash-version.patch | patch -p1
-curl -sL $mirror/openwrt/patch/0001-mediatek-Device-Cetron-ct3003-patch-file.patch | patch -p1
-curl -sL $mirror/openwrt/patch/0001-mediatek-Device-Qihoo-360t7-patch-file.patch | patch -p1
 pushd feeds/luci
     curl -s $mirror/openwrt/patch/0001-luci-mod-system-add-modal-overlay-dialog-to-reboot.patch | patch -p1
     curl -s $mirror/openwrt/patch/0002-luci-mod-status-displays-actual-process-memory-usage.patch | patch -p1
