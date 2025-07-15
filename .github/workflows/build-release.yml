@@ -14,6 +14,7 @@ on:
           - 'Netcore-N60-pro-512rom'
           - 'Cetron-CT3003'
           - 'Qihoo-360t7'
+          - 'Qihoo-360t7-512rom'
       ccache:
         description: 'Enable ccache (Use Cache to speed up next build)'
         type: boolean
