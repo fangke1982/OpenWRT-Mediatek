@@ -29,7 +29,6 @@ sed -i 's/^\(\s*set wireless\.default_.*\.encryption=\)none$/\1psk2+ccmp/' packa
 sed -i $'/^\\s*set wireless\\.default_.*\\.encryption=psk2+ccmp$/a\\\t\t\t\t\tset wireless.default_${dev}.key=12345678' package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
 sed -i "s/12345678/$Wifi_Password/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
 
-
 # Version settings
 cat << 'EOF' >> feeds/luci/modules/luci-mod-status/ucode/template/admin_status/index.ut
 <script>
