@@ -28,6 +28,9 @@ sed -i "s/ImmortalWrt-5G/$Wifi_Name-5G/g" package/mtk/applications/mtwifi-cfg/fi
 curl -sL $mirror/openwrt/patch/0001-mtwifi-default-password-setting.patch | patch -p1
 sed -i "s/12345678/$Wifi_Password/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
 
+# default-settings
+curl -sL $mirror/openwrt/patch/0001-Chinese-settings-for-default-settings.patch | patch -p1
+
 # Version settings
 cat << 'EOF' >> feeds/luci/modules/luci-mod-status/ucode/template/admin_status/index.ut
 <script>
