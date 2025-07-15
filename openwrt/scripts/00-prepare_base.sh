@@ -56,6 +56,8 @@ if [ "$platform" = "Netcore-N60-pro-512rom" ]; then
     curl -sL $mirror/openwrt/patch/0001-netcore-n60-pro-512-flash-version.patch | patch -p1
 elif [ "$platform" = "Cetron-CT3003" ]; then
     curl -sL $mirror/openwrt/patch/0001-mediatek-Device-Cetron-ct3003-patch-file.patch | patch -p1
+elif [ "$platform" = "Qihoo-360t7-512rom" ]; then
+    curl -sL $mirror/openwrt/patch/0001-Qihoo-360t7-512-flash-version.patch | patch -p1 
 fi
 curl -sL $mirror/openwrt/patch/0001-Modify-version-information.patch | patch -p1
 pushd feeds/luci
