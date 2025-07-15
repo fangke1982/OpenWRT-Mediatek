@@ -56,6 +56,9 @@ git clone https://$github/sbwml/luci-app-openlist package/new/openlist
 # adguardhome
 git clone https://$gitea/luci-app-adguardhome package/new/luci-app-adguardhome
 
+# socat
+git clone https://github.com/zhiern/luci-app-socat package/new/luci-app-socat
+
 # install feeds
 ./scripts/feeds update -a
 ./scripts/feeds install -a
