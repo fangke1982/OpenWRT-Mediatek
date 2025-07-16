@@ -31,9 +31,6 @@ fi
 #   Mediatek OpenWrt Build Script   #
 #####################################
 
-# script url
-export mirror=https://raw.githubusercontent.com/zhiern/OpenWRT-Mediatek/refs/heads/openwrt-24.10
-
 # Get the current warehouse address（GitHub Actions Provided environment variables）
 REPO_URL="https://github.com/${GITHUB_REPOSITORY}"
 
