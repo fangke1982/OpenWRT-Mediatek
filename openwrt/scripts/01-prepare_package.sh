@@ -40,14 +40,10 @@ rm -rf feeds/packages/net/mosdns
 git clone https://$github/sbwml/luci-app-mosdns -b v5 package/new/mosdns
 
 # openlist
-rm -rf feeds/luci/applications/luci-app-openlist
 git clone https://$github/sbwml/luci-app-openlist package/new/openlist
 
 # adguardhome
 git clone https://$gitea/luci-app-adguardhome package/new/luci-app-adguardhome
-
-# socat
-# git clone https://github.com/zhiern/luci-app-socat package/new/luci-app-socat
 
 # install feeds
 ./scripts/feeds update -a
