@@ -7,7 +7,7 @@ sed -i "s/192.168.6.1/$LAN/g" package/base-files/files/bin/config_generate
 sed -i 's/ImmortalWrt/ZeroWrt/' package/base-files/files/bin/config_generate
 
 # banner
-curl -s $mirror/files/base-files/banner > package/base-files/files/etc/banner
+curl -s $mirror/openwrt/files/base-files/banner > package/base-files/files/etc/banner
 
 # default password
 if [ -n "$ROOT_PASSWORD" ]; then
