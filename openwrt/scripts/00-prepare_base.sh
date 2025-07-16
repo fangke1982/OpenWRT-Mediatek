@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # default LAN IP
-sed -i "s/192.168.6.1/$LAN/g" package/base-files/files/bin/config_generate
+sed -i "s/192.168.1.1/$LAN/g" package/base-files/files/bin/config_generate
 
 # default name
 sed -i 's/ImmortalWrt/ZeroWrt/' package/base-files/files/bin/config_generate
