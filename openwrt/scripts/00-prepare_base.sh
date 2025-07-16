@@ -35,7 +35,7 @@ if [ "$ENABLE_UHTTPD" != "y" ]; then
     sed -i 's/+uhttpd /+luci-nginx /g' feeds/luci/collections/luci-light/Makefile
     sed -i "s/+luci /+luci-nginx /g" feeds/luci/collections/luci-ssl-openssl/Makefile
     sed -i "s/+luci /+luci-nginx /g" feeds/luci/collections/luci-ssl/Makefile
-if
+fi
 sed -i 's/+uhttpd +uhttpd-mod-ubus /+luci-nginx /g' feeds/packages/net/wg-installer/Makefile
 sed -i '/uhttpd-mod-ubus/d' feeds/luci/collections/luci-light/Makefile
 sed -i 's/+luci-nginx \\$/+luci-nginx/' feeds/luci/collections/luci-light/Makefile
@@ -67,6 +67,7 @@ sed -i 's/cheaper = 1/cheaper = 2/g' feeds/packages/net/uwsgi/files-luci-support
 # rpcd - fix timeout
 sed -i 's/option timeout 30/option timeout 60/g' package/system/rpcd/files/rpcd.config
 sed -i 's#20) \* 1000#60) \* 1000#g' feeds/luci/modules/luci-base/htdocs/luci-static/resources/rpc.js
+
 # Version settings
 cat << 'EOF' >> feeds/luci/modules/luci-mod-status/ucode/template/admin_status/index.ut
 <script>
