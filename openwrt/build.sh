@@ -106,7 +106,7 @@ if [ "$USE_GCC13" = "y" ]; then
 elif [ "$USE_GCC14" = "y" ]; then
     export USE_GCC14=y gcc_version=14
 else
-    export USE_GCC13=y gcc_version=13
+    export USE_GCC14=y gcc_version=14
 fi
 
 # print version
@@ -188,9 +188,6 @@ echo -e "CONFIG_DEVEL=y" >> .config
 echo -e "CONFIG_TOOLCHAINOPTS=y" >> .config
 echo -e "CONFIG_GCC_USE_VERSION_${gcc_version}=y\n" >> .config
 [ "$(whoami)" = "runner" ] && endgroup
-
-# uhttpd
-[ "$ENABLE_UHTTPD" = "y" ] && sed -i '/nginx/d' .config && echo 'CONFIG_PACKAGE_ariang=y' >> .config
 
 # ccache
 if [ "$ENABLE_CCACHE" = "y" ]; then
