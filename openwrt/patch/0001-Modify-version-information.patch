@@ -1,7 +1,7 @@
-From 602613e6d9036ebfd85af0929b243ee6deaf4587 Mon Sep 17 00:00:00 2001
+From e79c8e268aa5dd01d9461256f9f40d86863f7750 Mon Sep 17 00:00:00 2001
 From: OPPEN321 <zj18139624826@gmail.com>
-Date: Thu, 17 Jul 2025 01:07:51 +0800
-Subject: [PATCH] mediatek: Device Qihoo-360t7 patch file
+Date: Sun, 13 Jul 2025 07:29:48 +0800
+Subject: [PATCH] Modify version information
 
 Signed-off-by: OPPEN321 <zj18139624826@gmail.com>
 ---
@@ -9,15 +9,15 @@ Signed-off-by: OPPEN321 <zj18139624826@gmail.com>
  1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/include/version.mk b/include/version.mk
-index 187a732..a4b47c8 100644
+index 80b1c1e570..a6ebe58779 100644
 --- a/include/version.mk
 +++ b/include/version.mk
 @@ -29,26 +29,26 @@ VERSION_CODE:=$(call qstrip,$(CONFIG_VERSION_CODE))
  VERSION_CODE:=$(if $(VERSION_CODE),$(VERSION_CODE),$(REVISION))
  
  VERSION_REPO:=$(call qstrip,$(CONFIG_VERSION_REPO))
--VERSION_REPO:=$(if $(VERSION_REPO),$(VERSION_REPO),https://downloads.immortalwrt.org/releases/21.02-SNAPSHOT)
-+VERSION_REPO:=$(if $(VERSION_REPO),$(VERSION_REPO),https://downloads.openwrt.org/releases/21.02-SNAPSHOT)
+-VERSION_REPO:=$(if $(VERSION_REPO),$(VERSION_REPO),https://downloads.immortalwrt.org/releases/24.10-SNAPSHOT)
++VERSION_REPO:=$(if $(VERSION_REPO),$(VERSION_REPO),https://downloads.openwrt.org/releases/24.10-SNAPSHOT)
  
  VERSION_DIST:=$(call qstrip,$(CONFIG_VERSION_DIST))
 -VERSION_DIST:=$(if $(VERSION_DIST),$(VERSION_DIST),ImmortalWrt)
