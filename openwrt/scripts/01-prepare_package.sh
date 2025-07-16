@@ -5,8 +5,7 @@ rm -rf feeds/packages/lang/golang
 git clone https://$gitea/packages_lang_golang -b 25.x feeds/packages/lang/golang
 
 # default-settings 
-rm -rf package/emortal/default-settings
-git clone https://$github/zhiern/default-settings -b mediatek package/new/default-settings
+curl -s $mirror/openwrt/files/default-settings/99-default-settings > package/emortal/default-settings/files/99-default-settings
 
 # Docker
 rm -rf feeds/luci/applications/luci-app-dockerman
