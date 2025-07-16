@@ -134,7 +134,7 @@ echo -e "${GREEN_COLOR}GCC VERSION: $gcc_version${RES}"
 
 # openwrt - releases
 [ "$(whoami)" = "runner" ] && group "source code"
-git clone --depth=1 -b v24.10.2 https://github.com/openwrt/openwrt
+git clone --depth=1 -b openwrt-21.02 https://github.com/zhiern/immortalwrt-mt798x openwrt
 
 if [ -d openwrt ]; then
     cd openwrt || exit 1
