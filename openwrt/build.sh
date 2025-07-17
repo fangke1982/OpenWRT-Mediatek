@@ -156,15 +156,22 @@ fi
 echo -e "\n${GREEN_COLOR}Patching ...${RES}\n"
 
 # scripts
-curl -sO "$mirror/openwrt/scripts/00-prepare_base.sh"
-curl -sO "$mirror/openwrt/scripts/01-prepare_package.sh"
-curl -sO "$mirror/openwrt/scripts/02-prepare_adguard_core.sh"
-curl -sO "$mirror/openwrt/scripts/03-preset_mihimo_core.sh"
-chmod 0755 ./*sh
+if [ "$git_name" = "private" ]; then
+    wget $mirror/openwrt/scripts/00-prepare_base.sh
+    wget $mirror/openwrt/scripts/01-prepare_package.sh
+    wget $mirror/openwrt/scripts/02-prepare_adguard_core.sh
+    wget $mirror/openwrt/scripts/03-preset_mihimo_core.sh
+elif [ "$git_name" = "zhao" ]; then
+    curl -sO "$mirror/openwrt/scripts/00-prepare_base.sh"
+    curl -sO "$mirror/openwrt/scripts/01-prepare_package.sh"
+    curl -sO "$mirror/openwrt/scripts/02-prepare_adguard_core.sh"
+    curl -sO "$mirror/openwrt/scripts/03-preset_mihimo_core.sh"
+fi
 if [ "$platform" = "Netcore-N60-pro-512rom" ]; then
     bash 02-prepare_adguard_core.sh
     bash 03-preset_mihimo_core.sh
 fi
+chmod 0755 ./*sh
 bash 00-prepare_base.sh
 bash 01-prepare_package.sh
 rm -f 0*-*.sh
