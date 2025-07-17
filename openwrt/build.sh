@@ -100,11 +100,13 @@ case "$1" in
     "Cetron-CT3003") export platform="Cetron-CT3003" toolchain_arch="aarch64_cortex-a53" ;;
 esac
 
-# gcc version
-if [ "$USE_GCC13" = "y" ]; then
+# gcc14 & 15
+if [ "$USE_GCC13" = y ]; then
     export USE_GCC13=y gcc_version=13
-elif [ "$USE_GCC14" = "y" ]; then
+elif [ "$USE_GCC14" = y ]; then
     export USE_GCC14=y gcc_version=14
+elif [ "$USE_GCC15" = y ]; then
+    export USE_GCC15=y gcc_version=15
 else
     export USE_GCC14=y gcc_version=14
 fi
