@@ -132,7 +132,6 @@ echo -e "${GREEN_COLOR}GCC VERSION: $gcc_version${RES}"
 [ -n "$Wifi_Name" ] && echo -e "${GREEN_COLOR}Default Wifi Name:${RES} ${BLUE_COLOR}$Wifi_Name${RES}" || echo -e "${GREEN_COLOR}Default Wifi Name: (${RES}${YELLOW_COLOR}ZeroWrt${RES}${GREEN_COLOR})${RES}"
 [ -n "$Wifi_Password" ] && echo -e "${GREEN_COLOR}Default Wifi Password:${RES} ${BLUE_COLOR}$Wifi_Password${RES}" || echo -e "${GREEN_COLOR}Default Wifi Password: (${RES}${YELLOW_COLOR}12345678${RES}${GREEN_COLOR})${RES}"
 [ "$BUILD_FAST" = "y" ] && echo -e "${GREEN_COLOR}BUILD_FAST: true${RES}" || echo -e "${GREEN_COLOR}BUILD_FAST:${RES} ${YELLOW_COLOR}false${RES}"
-[ "$ENABLE_CCACHE" = "y" ] && echo -e "${GREEN_COLOR}ENABLE_CCACHE: true${RES}" || echo -e "${GREEN_COLOR}ENABLE_CCACHE:${RES} ${YELLOW_COLOR}false${RES}"
 
 # openwrt - releases
 [ "$(whoami)" = "runner" ] && group "source code"
@@ -197,13 +196,6 @@ echo -e "CONFIG_GCC_USE_VERSION_${gcc_version}=y\n" >> .config
 
 # uhttpd
 [ "$ENABLE_UHTTPD" = "y" ] && sed -i '/nginx/d' .config && echo 'CONFIG_PACKAGE_ariang=y' >> .config
-
-# ccache
-if [ "$ENABLE_CCACHE" = "y" ]; then
-    echo "CONFIG_CCACHE=y" >> .config
-    [ "$(whoami)" = "runner" ] && echo "CONFIG_CCACHE_DIR=\"/builder/.ccache\"" >> .config
-    tools_suffix="_ccache"
-fi
 
 # Toolchain Cache
 if [ "$BUILD_FAST" = "y" ]; then
