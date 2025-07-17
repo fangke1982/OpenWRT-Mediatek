@@ -105,7 +105,7 @@ export ENABLE_UHTTPD=y
 ### 开始构建
 ```shell
 # linux-6.12
-bash <(curl -sS https://init.kejizero.online) 设备名称{Netcore-N60，Netcore-N60-pro，Netcore-N60-pro-512rom，Cetron-CT3003，Qihoo-360t7，Qihoo-360t7-512rom}
+bash <(curl -sS https://init.kejizero.online/build.sh) 设备名称{Netcore-N60，Netcore-N60-pro，Netcore-N60-pro-512rom，Cetron-CT3003，Qihoo-360t7，Qihoo-360t7-512rom}
 ```
 
 -----------------
