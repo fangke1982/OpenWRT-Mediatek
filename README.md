@@ -9,10 +9,10 @@
 <img alt="GitHub" src="https://img.shields.io/github/license/zhiern/OpenWRT-Mediatek?style=for-the-badge">
 <p>
 <p align="center">
-<img src="https://github.com/QiuSimons/YAOF/workflows/Netcore-N60/badge.svg">
-<img src="https://github.com/QiuSimons/YAOF/workflows/Netcore-N60-pro/badge.svg">
-<img src="https://github.com/QiuSimons/YAOF/workflows/Cetron-CT3003/badge.svg">
-<img src="https://github.com/QiuSimons/YAOF/workflows/Qihoo-360t7/badge.svg">
+<img src="https://github.com/zhiern/OpenWRT-Mediatek/workflows/Netcore-N60/badge.svg">
+<img src="https://github.com/zhiern/OpenWRT-Mediatek/workflows/Netcore-N60-pro/badge.svg">
+<img src="https://github.com/zhiern/OpenWRT-Mediatek/workflows/Cetron-CT3003/badge.svg">
+<img src="https://github.com/zhiern/OpenWRT-Mediatek/workflows/Qihoo-360t7/badge.svg">
 <p>
 
 
