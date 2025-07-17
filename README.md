@@ -29,6 +29,6 @@ I18N: [English](README_EN.md) | [简体中文](README.md)
 
 ### 存档来自：https://init.kejizero.online
 
-## 基于 immortalwrt-mt798x-6.6[地址](https://github.com/padavanonly/immortalwrt-mt798x-6.6) 固件下载:
+## 基于 immortalwrt-mt798x-6.6 [固件下载](https://github.com/padavanonly/immortalwrt-mt798x-6.6)
 
 #### NanoPi R4S: https://r4s.cooluc.com
