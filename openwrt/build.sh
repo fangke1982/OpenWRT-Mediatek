@@ -182,6 +182,10 @@ case "$platform" in
         ;;
 esac
 
+# gcc15 patches
+[ "$(whoami)" = "runner" ] && group "patching toolchain"
+curl -s $mirror/openwrt/patch/202-toolchain-gcc-add-support-for-GCC-15.patch | patch -p1
+
 # gcc config
 echo -e "\n# gcc ${gcc_version}" >> .config
 echo -e "CONFIG_DEVEL=y" >> .config
