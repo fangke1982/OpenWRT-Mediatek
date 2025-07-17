@@ -7,6 +7,16 @@ git clone https://$gitea/packages_lang_golang -b 25.x feeds/packages/lang/golang
 # default-settings 
 curl -s $mirror/openwrt/files/default-settings/99-default-settings > package/emortal/default-settings/files/99-default-settings
 
+
+# Docker
+rm -rf feeds/luci/applications/luci-app-dockerman
+git clone https://$gitea/luci-app-dockerman -b openwrt-24.10 feeds/luci/applications/luci-app-dockerman
+rm -rf feeds/packages/utils/{docker,dockerd,containerd,runc}
+git clone https://$gitea/packages_utils_docker feeds/packages/utils/docker
+git clone https://$gitea/packages_utils_dockerd feeds/packages/utils/dockerd
+git clone https://$gitea/packages_utils_containerd feeds/packages/utils/containerd
+git clone https://$gitea/packages_utils_runc feeds/packages/utils/runc
+
 # SSRP & Passwall
 rm -rf feeds/luci/applications/{luci-app-daed,luci-app-dae,luci-app-homeproxy,luci-app-openclash,luci-app-passwall}
 rm -rf feeds/packages/net/{daed,xray-core,v2ray-core,v2ray-geodata,sing-box}
