@@ -1,25 +1,23 @@
-From 554e561eb7560c585b05ec6d86845be207d085a2 Mon Sep 17 00:00:00 2001
+From 86b11cfbabf1380217526074021c810aef4ea07b Mon Sep 17 00:00:00 2001
 From: OPPEN321 <zj18139624826@gmail.com>
-Date: Wed, 16 Jul 2025 22:40:44 +0800
-Subject: [PATCH] mediatek: Device Qihoo-360t7 patch file
+Date: Sun, 13 Jul 2025 07:36:31 +0800
+Subject: [PATCH] netcore-n60-pro 512 flash version
 
 Signed-off-by: OPPEN321 <zj18139624826@gmail.com>
 ---
- .../arch/arm64/boot/dts/mediatek/mt7986a-netcore-n60-pro.dts    | 2 +-
+ target/linux/mediatek/dts/mt7986a-netcore-n60-pro.dts | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7986a-netcore-n60-pro.dts b/target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7986a-netcore-n60-pro.dts
-index 5177cc9882..3a338d086f 100644
---- a/target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7986a-netcore-n60-pro.dts
-+++ b/target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7986a-netcore-n60-pro.dts
-@@ -114,7 +114,7 @@
- 
+diff --git a/target/linux/mediatek/dts/mt7986a-netcore-n60-pro.dts b/target/linux/mediatek/dts/mt7986a-netcore-n60-pro.dts
+index 217403824d..341a72eb8a 100644
+--- a/target/linux/mediatek/dts/mt7986a-netcore-n60-pro.dts
++++ b/target/linux/mediatek/dts/mt7986a-netcore-n60-pro.dts
+@@ -295,7 +295,7 @@
+
  			partition@580000 {
  				label = "ubi";
--				reg = <0x580000 0x7280000>;
-+				reg = <0x580000 0x1ea00000>;
+-				reg = <0x0580000 0x7280000>;
++				reg = <0x0580000 0x1ea00000>;
  			};
  		};
  	};
--- 
-2.43.0
