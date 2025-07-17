@@ -19,7 +19,7 @@ I18N: [English](README_EN.md) | [简体中文](README.md)
   - WAN 默认启用防火墙保护
   - Docker 已切换为国内源，支持镜像加速
  
-- 🚀 **增强支持**[具体请查看hanwckf项目说明](https://cmi.hanwckf.top/p/immortalwrt-mt798x)：
+- 🚀 **增强支持**：[具体请查看hanwckf项目说明](https://cmi.hanwckf.top/p/immortalwrt-mt798x)
   - 使用mtk-openwrt-feeds提供的有线驱动、hnat驱动、内核补丁及配置工具，支持所有硬件加速特性
   - 使用mtwifi原厂无线驱动，默认开启802.11k，支持warp在内的所有加速特性
   - mt7981/mt7986均支持两个ppe，每个ppe有32k Entry（当有线驱动使用ADMAv1时，每个PPE最大支持16k Entry）
