@@ -183,6 +183,11 @@ case "$platform" in
         ;;
 esac
 
+# Choose whether to enable high power
+if { [ "$platform" = "Netcore-N60-pro" ] || [ "$platform" = "Netcore-N60-pro-512rom" ]; } && [ "$High_Power" = "y" ]; then
+    sed -i 's/CONFIG_MTK_MT7986_NEW_FW=y/# CONFIG_MTK_MT7986_NEW_FW is not set/' .config
+fi
+
 # gcc15 patches
 [ "$(whoami)" = "runner" ] && group "patching toolchain"
 curl -s $mirror/openwrt/patch/202-toolchain-gcc-add-support-for-GCC-15.patch | patch -p1
