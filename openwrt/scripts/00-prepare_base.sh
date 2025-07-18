@@ -38,9 +38,6 @@ sed -i "s/ImmortalWrt-5G/$Wifi_Name-5G/g" package/mtk/applications/mtwifi-cfg/fi
 curl -sL $mirror/openwrt/patch/0001-mtwifi-default-password-setting.patch | patch -p1
 sed -i "s/12345678/$Wifi_Password/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
 
-# Use nginx instead of uhttpd
-sed -i "s/+luci-light/+luci-nginx/g" feeds/luci/collections/luci/Makefile
-
 # nginx - latest version
 rm -rf feeds/packages/net/nginx
 git clone https://$github/sbwml/feeds_packages_net_nginx feeds/packages/net/nginx -b openwrt-24.10
