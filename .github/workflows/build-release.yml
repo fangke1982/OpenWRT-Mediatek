@@ -15,7 +15,7 @@ on:
           - 'Cetron-CT3003'
           - 'Qihoo-360t7'
           - 'Qihoo-360t7-512rom'
-      high-power:
+      high_power:
         description: 'nx60pro ipailna high power (Turn on nx60pro high power)'
         type: boolean
         default: true
@@ -111,6 +111,7 @@ jobs:
         git_password: ${{ secrets.password }}
       run: |
         export ${{ github.event.inputs.build_options }} LAN=${{ github.event.inputs.lan_addr }} Wifi_Name="${{ github.event.inputs.wifi_name }}" Wifi_Password="${{ github.event.inputs.wifi_password }}"  USE_GCC13=y
+        [ ${{ github.event.inputs.high_power }} = 'true' ] && export High_Power=y
         [ -n ${{ github.event.inputs.root_password }} ] && export ROOT_PASSWORD="${{ github.event.inputs.root_password }}"
         bash <(curl -sS http://127.0.0.1:8080/build.sh) ${{ github.event.inputs.device }}
 
