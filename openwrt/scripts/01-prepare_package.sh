@@ -21,7 +21,7 @@ git clone https://$gitea/packages_utils_runc feeds/packages/utils/runc
 # SSRP & Passwall
 rm -rf feeds/luci/applications/{luci-app-daed,luci-app-dae,luci-app-homeproxy,luci-app-openclash,luci-app-passwall}
 rm -rf feeds/packages/net/{daed,xray-core,v2ray-core,v2ray-geodata,sing-box}
-it clone https://"$git_name":"$git_password"@$gitea/openwrt_helloworld package/new/helloworld
+git clone https://"$git_name":"$git_password"@$gitea/openwrt_helloworld package/new/helloworld
 
 # argon
 rm -rf feeds/luci/themes/luci-theme-argon
