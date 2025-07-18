@@ -15,6 +15,10 @@ on:
           - 'Cetron-CT3003'
           - 'Qihoo-360t7'
           - 'Qihoo-360t7-512rom'
+      high-power:
+        description: 'nx60pro ipailna high power (Turn on nx60pro high power)'
+        type: boolean
+        default: true
       lan_addr:
         description: 'Setting default LAN address'
         required: true
