@@ -16,7 +16,7 @@ on:
           - 'Qihoo-360t7'
           - 'Qihoo-360t7-512rom'
       high_power:
-        description: 'nx60pro ipailna high power (Turn on nx60pro high power)'
+        description: 'Netcore-N60-pro ipailna high power '
         type: boolean
         default: true
       lan_addr:
