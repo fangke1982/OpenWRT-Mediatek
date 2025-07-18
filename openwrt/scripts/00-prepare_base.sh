@@ -39,16 +39,7 @@ curl -sL $mirror/openwrt/patch/0001-mtwifi-default-password-setting.patch | patc
 sed -i "s/12345678/$Wifi_Password/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
 
 # Use nginx instead of uhttpd
-if [ "$ENABLE_UHTTPD" != "y" ]; then
-    sed -i 's/+uhttpd /+luci-nginx /g' feeds/luci/collections/luci/Makefile
-    sed -i 's/+uhttpd-mod-ubus //' feeds/luci/collections/luci/Makefile
-    sed -i 's/+uhttpd /+luci-nginx /g' feeds/luci/collections/luci-light/Makefile
-    sed -i "s/+luci /+luci-nginx /g" feeds/luci/collections/luci-ssl-openssl/Makefile
-    sed -i "s/+luci /+luci-nginx /g" feeds/luci/collections/luci-ssl/Makefile
-fi
-sed -i 's/+uhttpd +uhttpd-mod-ubus /+luci-nginx /g' feeds/packages/net/wg-installer/Makefile
-sed -i '/uhttpd-mod-ubus/d' feeds/luci/collections/luci-light/Makefile
-sed -i 's/+luci-nginx \\$/+luci-nginx/' feeds/luci/collections/luci-light/Makefile
+sed -i "s/+luci-light/+luci-nginx/g" feeds/luci/collections/luci/Makefile
 
 # nginx - latest version
 rm -rf feeds/packages/net/nginx
