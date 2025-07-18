@@ -31,12 +31,14 @@ fi
 #   Mediatek OpenWrt Build Script   #
 #####################################
 
-# Set mirror variable
-export mirror=https://init.kejizero.online
+# Get the current warehouse address（GitHub Actions Provided environment variables）
+REPO_URL="https://github.com/${GITHUB_REPOSITORY}"
 
-# github actions - caddy server
-if [ "$(whoami)" = "runner" ] && [ "$git_name" != "zhao" ]; then
-    export mirror=http://127.0.0.1:8080
+# Set mirror variable
+if [ "$REPO_URL" = "https://github.com/zhiern/OpenWRT-Mediatek" ]; then
+    export mirror="http://127.0.0.1:8080"
+else
+    export mirror="https://init.kejizero.online"
 fi
 
 # GitHub mirror
