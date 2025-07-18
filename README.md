@@ -36,7 +36,7 @@ I18N: [English](README_EN.md) | [简体中文](README.md)
 
 ---------------
 
-## 基于 Linux 6.6/6.12 LTS 固件下载:
+## 基于 Linux 6.6 LTS 固件下载:
 
 #### Mediatek : https://openwrt.kejizero.online
 
