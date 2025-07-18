@@ -194,9 +194,6 @@ echo -e "CONFIG_TOOLCHAINOPTS=y" >> .config
 echo -e "CONFIG_GCC_USE_VERSION_${gcc_version}=y\n" >> .config
 [ "$(whoami)" = "runner" ] && endgroup
 
-# uhttpd
-[ "$ENABLE_UHTTPD" = "y" ] && sed -i '/nginx/d' .config && echo 'CONFIG_PACKAGE_ariang=y' >> .config
-
 # Toolchain Cache
 if [ "$BUILD_FAST" = "y" ]; then
     TOOLCHAIN_URL="https://github.com/zhiern/openwrt_caches/releases/download/openwrt-24.10"
