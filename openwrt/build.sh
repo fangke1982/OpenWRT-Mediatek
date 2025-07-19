@@ -69,6 +69,8 @@ fi
 if [ "$1" != "Netcore-N60" ] && 
    [ "$1" != "Netcore-N60-pro" ] && 
    [ "$1" != "Netcore-N60-pro-512rom" ] && 
+   [ "$1" != "Qihoo-360t7" ] &&
+   [ "$1" != "Qihoo-360t7-512rom" ] &&
    [ "$1" != "Cetron-CT3003" ]; then
    
     echo -e "\n${RED_COLOR}Building type not specified or incorrect.${RES}\n"
@@ -76,6 +78,8 @@ if [ "$1" != "Netcore-N60" ] &&
     echo -e "Netcore-N60 releases: ${GREEN_COLOR}bash build.sh Netcore-N60${RES}"
     echo -e "Netcore-N60-pro releases: ${GREEN_COLOR}bash build.sh Netcore-N60-pro${RES}"
     echo -e "Netcore-N60-pro-512rom releases: ${GREEN_COLOR}bash build.sh Netcore-N60-pro-512rom${RES}"
+    echo -e "Qihoo-360t7 releases: ${GREEN_COLOR}bash build.sh Qihoo-360t7${RES}"
+    echo -e "Qihoo-360t7-512rom releases: ${GREEN_COLOR}bash build.sh Qihoo-360t7-512rom${RES}"
     echo -e "Cetron-CT3003 releases: ${GREEN_COLOR}bash build.sh Cetron-CT3003${RES}"
     exit 1
 fi
@@ -97,6 +101,8 @@ case "$1" in
     "Netcore-N60") export platform="Netcore-N60" toolchain_arch="aarch64_cortex-a53" ;;
     "Netcore-N60-pro") export platform="Netcore-N60-pro" toolchain_arch="aarch64_cortex-a53" ;;
     "Netcore-N60-pro-512rom") export platform="Netcore-N60-pro-512rom" toolchain_arch="aarch64_cortex-a53" ;;
+    "Qihoo-360t7") export platform="Qihoo-360t7" toolchain_arch="aarch64_cortex-a53" ;;
+    "Qihoo-360t7-512rom") export platform="Qihoo-360t7-512rom" toolchain_arch="aarch64_cortex-a53" ;;
     "Cetron-CT3003") export platform="Cetron-CT3003" toolchain_arch="aarch64_cortex-a53" ;;
 esac
 
