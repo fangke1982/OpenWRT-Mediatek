@@ -123,6 +123,8 @@ case "$platform" in
     "Netcore-N60") echo -e "${GREEN_COLOR}Model: Netcore-N60${RES}" ;;
     "Netcore-N60-pro") echo -e "${GREEN_COLOR}Model: Netcore-N60-pro${RES}" ;;
     "Netcore-N60-pro-512rom") echo -e "${GREEN_COLOR}Model: Netcore-N60-pro-512rom${RES}" ;;
+    "Qihoo-360t7") echo -e "${GREEN_COLOR}Model: Qihoo-360t7${RES}" ;;
+    "Qihoo-360t7-512rom") echo -e "${GREEN_COLOR}Model: Qihoo-360t7-512rom${RES}" ;;
     "Cetron-CT3003") echo -e "${GREEN_COLOR}Model: Cetron-CT3003${RES}" ;;
 esac
 
@@ -182,6 +184,8 @@ case "$platform" in
     "Netcore-N60") curl -s "$mirror/openwrt/24-config-netcore-n60" > .config ;;
     "Netcore-N60-pro") curl -s "$mirror/openwrt/24-config-netcore-n60-pro" > .config ;;
     "Netcore-N60-pro-512rom") curl -s "$mirror/openwrt/24-config-netcore-n60-pro-512rom" > .config ;;
+    "Qihoo-360t7") curl -s "$mirror/openwrt/24-config-qihoo_360t7" > .config ;;
+    "Qihoo-360t7-512rom") curl -s "$mirror/openwrt/24-config-qihoo_360t7-512rom" > .config ;;
     "Cetron-CT3003") curl -s "$mirror/openwrt/24-config-cetron-ct3003" > .config ;;
     *) 
         echo -e "${RED_COLOR}Unsupported platform: $platform${RES}"
