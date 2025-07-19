@@ -127,7 +127,7 @@ jobs:
       run: |
         mkdir -p rom info
         if [ "${{ github.event.inputs.device }}" = "Netcore-N60" ]; then
-          cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-netcore_n60-squashfs-sysupgrade.bin rom/
+          cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-netcore_n60-squashfs-sysupgrade.itb rom/
         elif [ "${{ github.event.inputs.device }}" = "Netcore-N60-pro" ]; then
           cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-netcore_n60-pro-squashfs-sysupgrade.bin rom/
         elif [ "${{ github.event.inputs.device }}" = "Netcore-N60-pro-512rom" ]; then
