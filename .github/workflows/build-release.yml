@@ -159,3 +159,23 @@ jobs:
         replacesArtifacts: true
         token: ${{ secrets.GITHUB_TOKEN }}
         artifacts: ${{ env.build_dir }}/rom/*
+        body: |
+          ## 🔍 固件信息概览 
+          - 🛠 **源码基础**：[Padavanonly](https://github.com/padavanonly/immortalwrt-mt798x-24.10)
+
+          - 🔧 **默认设置**：
+            - 管理地址：`10.0.0.1`，密码：`password` 或留空
+            - 默认WIFI密码：12345678 
+            - 所有 LAN 口均可访问网页终端和 SSH
+            - WAN 默认启用防火墙保护
+            - Docker 已切换为国内源，支持镜像加速 
+      
+          - 🚀 **增强支持**：[具体请查看 hanwckf 项目说明](https://cmi.hanwckf.top/p/immortalwrt-mt798x)
+            - 使用 mtk-openwrt-feeds 提供的有线驱动、hnat 驱动、内核补丁及配置工具，支持所有硬件加速特性
+            - 使用 mtwifi 原厂无线驱动，默认开启 802.11k，支持 warp 在内的所有加速特性
+            - mt7981/mt7986 均支持两个 ppe，每个 ppe 有 32k Entry（当有线驱动使用 ADMAv1 时，每个 PPE 最大支持 16k Entry）
+            - mtwifi-cfg 无线配置工具支持 OpenWrt 的原生 luci 界面以及 netifd-wireless 标准接口，还支持 mtk 原厂提供的 luci-app-mtk 和 wifi-profile
+      
+          - 🎛 **功能优化**：
+            - 内置 ZeroWrt 设置菜单，轻松管理
+            - 支持高级插件、自定义启动项
