@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       device:
-        description: 'Select the build device'
+        description: '选择构建的设备'
         required: true
         default: 'Cetron-CT3003'
         type: choice
@@ -16,31 +16,31 @@ on:
           - 'Qihoo-360t7'
           - 'Qihoo-360t7-512rom'
       high_power:
-        description: 'Netcore-N60-pro ipailna high power '
+        description: '是否开启 Netcore-N60（Pro）高功率 '
         type: boolean
         default: true
       lan_addr:
-        description: 'Setting default LAN address'
+        description: '设置默认 LAN 地址'
         required: true
         default: '10.0.0.1'
         type: string
       root_password:
-        description: 'Setting default root password (Default is Passwaod)'
+        description: '设置默认 Root 密码'
         required: false
         default: 'password'
         type: string
       wifi_name:
-        description: 'Setting default wifi name (Default is ZeroWrt)'
+        description: '设置默认 WIFI 名称'
         required: false
         default: 'ZeroWrt'
         type: string
       wifi_password:
-        description: 'Setting default wifi password (Default is 123456)'
+        description: '设置默认 WIFI 密码'
         required: false
         default: '12345678'
         type: string
       build_options:
-        description: 'Build options (separate multiple options with spaces)'
+        description: '构建选项 (使用空格分割多个变量)'
         required: false
         default: 'BUILD_FAST=y'
         type: string
