@@ -39,7 +39,7 @@ curl -sL $mirror/openwrt/patch/0001-mtwifi-default-password-setting.patch | patc
 sed -i "s/12345678/$Wifi_Password/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
 
 # Cancel the system default setting
-sed -i '/^DEFAULT_PACKAGES\.tweak:=\\/,/^[^ \t]/ {/^[ \t]*luci-light[ \t]*\\$/d}' include/target.mk
+# sed -i '/^DEFAULT_PACKAGES\.tweak:=\\/,/^[^ \t]/ {/^[ \t]*luci-light[ \t]*\\$/d}' include/target.mk
 
 # nginx - latest version
 rm -rf feeds/packages/net/nginx
