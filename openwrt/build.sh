@@ -71,7 +71,9 @@ if [ "$1" != "Netcore-N60" ] &&
    [ "$1" != "Netcore-N60-pro-512rom" ] && 
    [ "$1" != "Qihoo-360t7" ] &&
    [ "$1" != "Qihoo-360t7-512rom" ] &&
-   [ "$1" != "Cetron-CT3003" ]; then
+   [ "$1" != "Cetron-CT3003" ] &&
+   [ "$1" != "Nokia_EA0326GMP" ] &&
+   [ "$1" != "Nokia_EA0326GMP-512rom" ]; then
    
     echo -e "\n${RED_COLOR}Building type not specified or incorrect.${RES}\n"
     echo -e "Usage:\n"
