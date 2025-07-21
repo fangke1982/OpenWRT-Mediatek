@@ -1,0 +1,25 @@
+From 9cfab1a3d83fa4f0602616a81c6070b05530dd9f Mon Sep 17 00:00:00 2001
+From: OPPEN321 <zj18139624826@gmail.com>
+Date: Mon, 21 Jul 2025 08:22:12 +0800
+Subject: [PATCH] mediatek: Device Qihoo-360t7 patch file
+
+Signed-off-by: OPPEN321 <zj18139624826@gmail.com>
+---
+ target/linux/mediatek/dts/mt7981b-nokia-ea0326gmp.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/target/linux/mediatek/dts/mt7981b-nokia-ea0326gmp.dts b/target/linux/mediatek/dts/mt7981b-nokia-ea0326gmp.dts
+index e1f8d250dc..9821e1f329 100644
+--- a/target/linux/mediatek/dts/mt7981b-nokia-ea0326gmp.dts
++++ b/target/linux/mediatek/dts/mt7981b-nokia-ea0326gmp.dts
+@@ -222,7 +222,7 @@
+ 
+ 			partition@980000 {
+ 				label = "ubi";
+-				reg = <0x980000 0x6e00000>;
++				reg = <0x980000 0x1ea00000>;
+ 			};
+ 		};
+ 	};
+-- 
+2.43.0
