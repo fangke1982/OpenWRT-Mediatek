@@ -143,10 +143,10 @@ jobs:
         elif [ "${{ github.event.inputs.device }}" = "Cetron-CT3003" ]; then
           cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-cetron_ct3003-squashfs-sysupgrade.bin rom/
         elif [ "${{ github.event.inputs.device }}" = "Nokia_EA0326GMP" ]; then
-          cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-nokia_ea0326gmp-squashfs-sysupgrade.itb rom/
+          cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-nokia_ea0326gmp-squashfs-sysupgrade.bin rom/
         elif [ "${{ github.event.inputs.device }}" = "Nokia_EA0326GMP-512rom" ]; then
-          mv openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-nokia_ea0326gmp-squashfs-sysupgrade.itb openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-nokia_ea0326gmp-512rom-squashfs-sysupgrade.itb
-          cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-nokia_ea0326gmp-512rom-squashfs-sysupgrade.itb rom/
+          mv openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-nokia_ea0326gmp-squashfs-sysupgrade.bin openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-nokia_ea0326gmp-512rom-squashfs-sysupgrade.bin
+          cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-nokia_ea0326gmp-512rom-squashfs-sysupgrade.bin rom/
         fi
 
     - name: Upload artifacts
