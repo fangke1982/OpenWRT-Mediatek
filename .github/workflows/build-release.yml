@@ -15,6 +15,8 @@ on:
           - 'Cetron-CT3003'
           - 'Qihoo-360t7'
           - 'Qihoo-360t7-512rom'
+          - 'Nokia_EA0326GMP'
+          - 'Nokia_EA0326GMP-512rom'
       high_power:
         description: '是否开启 Netcore-N60（Pro）高功率 '
         type: boolean
@@ -139,7 +141,12 @@ jobs:
           mv openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-qihoo_360t7-squashfs-sysupgrade.bin openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-qihoo_360t7-512rom-squashfs-sysupgrade.bin
           cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-qihoo_360t7-512rom-squashfs-sysupgrade.bin rom/
         elif [ "${{ github.event.inputs.device }}" = "Cetron-CT3003" ]; then
-          cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-cetron_ct3003-squashfs-sysupgrade.bin rom/          
+          cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-cetron_ct3003-squashfs-sysupgrade.bin rom/
+        elif [ "${{ github.event.inputs.device }}" = "Nokia_EA0326GMP" ]; then
+          cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-nokia_ea0326gmp-squashfs-sysupgrade.itb rom/
+        elif [ "${{ github.event.inputs.device }}" = "Nokia_EA0326GMP-512rom" ]; then
+          mv openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-nokia_ea0326gmp-squashfs-sysupgrade.itb openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-nokia_ea0326gmp-512rom-squashfs-sysupgrade.itb
+          cp -a openwrt/bin/targets/mediatek/filogic/openwrt-mediatek-filogic-nokia_ea0326gmp-512rom-squashfs-sysupgrade.itb rom/
         fi
 
     - name: Upload artifacts
