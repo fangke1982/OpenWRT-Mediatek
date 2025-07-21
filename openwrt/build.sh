@@ -81,6 +81,8 @@ if [ "$1" != "Netcore-N60" ] &&
     echo -e "Qihoo-360t7 releases: ${GREEN_COLOR}bash build.sh Qihoo-360t7${RES}"
     echo -e "Qihoo-360t7-512rom releases: ${GREEN_COLOR}bash build.sh Qihoo-360t7-512rom${RES}"
     echo -e "Cetron-CT3003 releases: ${GREEN_COLOR}bash build.sh Cetron-CT3003${RES}"
+    echo -e "Nokia_EA0326GMP releases: ${GREEN_COLOR}bash build.sh Nokia_EA0326GMP${RES}"
+    echo -e "Nokia_EA0326GMP-512rom releases: ${GREEN_COLOR}bash build.sh Nokia_EA0326GMP-512rom${RES}"
     exit 1
 fi
 
@@ -104,6 +106,8 @@ case "$1" in
     "Qihoo-360t7") export platform="Qihoo-360t7" toolchain_arch="aarch64_cortex-a53" ;;
     "Qihoo-360t7-512rom") export platform="Qihoo-360t7-512rom" toolchain_arch="aarch64_cortex-a53" ;;
     "Cetron-CT3003") export platform="Cetron-CT3003" toolchain_arch="aarch64_cortex-a53" ;;
+    "Nokia_EA0326GMP") export platform="Nokia_EA0326GMP" toolchain_arch="aarch64_cortex-a53" ;;
+    "Nokia_EA0326GMP-512rom") export platform="Nokia_EA0326GMP-512rom" toolchain_arch="aarch64_cortex-a53" ;;
 esac
 
 # gcc14 & 15
@@ -126,6 +130,8 @@ case "$platform" in
     "Qihoo-360t7") echo -e "${GREEN_COLOR}Model: Qihoo-360t7${RES}" ;;
     "Qihoo-360t7-512rom") echo -e "${GREEN_COLOR}Model: Qihoo-360t7-512rom${RES}" ;;
     "Cetron-CT3003") echo -e "${GREEN_COLOR}Model: Cetron-CT3003${RES}" ;;
+    "Nokia_EA0326GMP") echo -e "${GREEN_COLOR}Model: Nokia_EA0326GMP${RES}" ;;
+    "Nokia_EA0326GMP-512rom") echo -e "${GREEN_COLOR}Model: Nokia_EA0326GMP-512rom${RES}" ;;
 esac
 
 get_kernel_version=$(curl -s https://raw.githubusercontent.com/padavanonly/immortalwrt-mt798x-6.6/refs/heads/openwrt-24.10-6.6/include/kernel-6.6)
@@ -187,6 +193,8 @@ case "$platform" in
     "Qihoo-360t7") curl -s "$mirror/openwrt/24-config-qihoo_360t7" > .config ;;
     "Qihoo-360t7-512rom") curl -s "$mirror/openwrt/24-config-qihoo_360t7-512rom" > .config ;;
     "Cetron-CT3003") curl -s "$mirror/openwrt/24-config-cetron-ct3003" > .config ;;
+    "Nokia_EA0326GMP") curl -s "$mirror/openwrt/24-config-nokia_ea0326gmp" > .config ;;
+    "Nokia_EA0326GMP-512rom") curl -s "$mirror/openwrt/24-config-nokia_ea0326gmp-512rom" > .config ;;
     *) 
         echo -e "${RED_COLOR}Unsupported platform: $platform${RES}"
         exit 1 
