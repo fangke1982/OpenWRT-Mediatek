@@ -64,6 +64,7 @@ git clone https://github.com/zhiern/luci-app-socat package/new/luci-app-socat
 git clone https://github.com/sirpdboy/luci-app-taskplan package/new/taskplan
 
 # kucat
+curl -s $mirror/openwrt/files/argon/bg1.jpg > package/new/kucat/luci-theme-kucat/htdocs/luci-static/kucat/img/bg1.jpg
 git clone https://github.com/sirpdboy/luci-theme-kucat package/new/kucat
 
 # luci-app-kucat-config
