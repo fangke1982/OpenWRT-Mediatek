@@ -63,6 +63,8 @@ git clone https://github.com/zhiern/luci-app-socat package/new/luci-app-socat
 # taskplan
 git clone https://github.com/sirpdboy/luci-app-taskplan package/new/taskplan
 
+git clone https://github.com/sirpdboy/luci-theme-kucat package/new/kucat
+
 # luci-app-kucat-config
 git clone https://github.com/sirpdboy/luci-app-kucat-config package/new/luci-app-kucat-config
 
