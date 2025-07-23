@@ -60,6 +60,21 @@ git clone https://$gitea/luci-app-adguardhome package/new/luci-app-adguardhome
 # socat
 git clone https://github.com/zhiern/luci-app-socat package/new/luci-app-socat
 
+# taskplan
+git clone https://github.com/sirpdboy/luci-app-taskplan package/new/taskplan
+
+# luci-app-kucat-config
+git clone https://github.com/sirpdboy/luci-app-kucat-config package/new/luci-app-kucat-config
+
+# timecontrol
+git clone https://github.com/sirpdboy/luci-app-timecontrol package/new/luci-app-timecontrol
+
+# watchdog
+git clone https://github.com/sirpdboy/luci-app-watchdog package/new/watchdog
+
+# netwizard
+git clone https://github.com/sirpdboy/luci-app-netwizard package/new/netwizard
+
 # install feeds
 ./scripts/feeds update -a
 ./scripts/feeds install -a
