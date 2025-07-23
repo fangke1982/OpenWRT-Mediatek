@@ -33,7 +33,7 @@ Copyright (c) Nicolas Gallagher and Jonathan Neal
 }
 
 /* 网络向导 (NetworkGuide) 菜单图标 */
-.main > .main-left > .nav > li > a[data-title="NetworkGuide"]::before {
+.main > .main-left > .nav > li > a[data-title="Netwizard"]::before {
   font-family: 'easeicon' !important;
   content: "\ecc7";
   color: #fb6340;
