@@ -37,11 +37,27 @@ rm -rf feeds/luci/applications/luci-app-argon-config
 git clone https://$github/jerrykuku/luci-app-argon-config.git package/new/luci-app-argon-config
 sed -i "s/bing/none/g" package/new/luci-app-argon-config/root/etc/config/argon
 
+# kucat
+git clone https://github.com/sirpdboy/luci-theme-kucat package/new/kucat
+curl -s $mirror/openwrt/files/argon/bg1.jpg > package/new/kucat/luci-theme-kucat/htdocs/luci-static/kucat/img/bg1.jpg
+curl -s $mirror/openwrt/files/kucat/jnaiconfont.ttf > package/new/kucat/luci-theme-kucat/htdocs/luci-static/kucat/fonts/jnaiconfont.ttf
+curl -s $mirror/openwrt/files/kucat/jnaiconfont.woff > package/new/kucat/luci-theme-kucat/htdocs/luci-static/kucat/fonts/jnaiconfont.woff
+curl -s $mirror/openwrt/files/kucat/jnaiconfont.woff2 > package/new/kucat/luci-theme-kucat/htdocs/luci-static/kucat/fonts/jnaiconfont.woff2
+curl -s $mirror/openwrt/files/kucat/cascade.css > package/new/kucat/luci-theme-kucat/htdocs/luci-static/kucat/css/style.css
+
+# luci-app-kucat-config
+git clone https://github.com/sirpdboy/luci-app-kucat-config package/new/luci-app-kucat-config
+
 # Theme settings
 sed -i 's|<a class="luci-link" href="https://github.com/openwrt/luci" target="_blank">Powered by <%= ver.luciname %> (<%= ver.luciversion %>)</a>|<a class="luci-link" href="https://www.kejizero.online" target="_blank">探索无限</a>|g' package/new/luci-theme-argon/luasrc/view/themes/argon/footer.htm
 sed -i 's|<a href="https://github.com/jerrykuku/luci-theme-argon" target="_blank">ArgonTheme <%# vPKG_VERSION %></a>|<a href="https://github.com/zhiern/OpenWRT" target="_blank">ZeroWrt</a> |g' package/new/luci-theme-argon/luasrc/view/themes/argon/footer.htm
 sed -i 's|<a class="luci-link" href="https://github.com/openwrt/luci" target="_blank">Powered by <%= ver.luciname %> (<%= ver.luciversion %>)</a>|<a class="luci-link" href="https://www.kejizero.online" target="_blank">探索无限</a>|g' package/new/luci-theme-argon/luasrc/view/themes/argon/footer_login.htm
 sed -i 's|<a href="https://github.com/jerrykuku/luci-theme-argon" target="_blank">ArgonTheme <%# vPKG_VERSION %></a>|<a href="https://github.com/zhiern/OpenWRT" target="_blank">ZeroWrt</a> |g' package/new/luci-theme-argon/luasrc/view/themes/argon/footer_login.htm
+sed -i \
+  -e 's|https://github.com/openwrt/luci|https://www.kejizero.online|g' \
+  -e 's|Powered by <%= ver.luciname %>|探索无限|g' \
+  -e 's|<a href="https://github.com/sirpdboy/kucat"  target="_blank">KuCatTheme <%# vPKG_VERSION %></a>|<a href="https://github.com/zhiern/OpenWRT-Mediatek"  target="_blank">ZeroWrt</a>|g' \
+  package/new/kucat/luci-theme-kucat/luasrc/view/themes/kucat/footer.htm
 
 # lucky
 git clone https://$github/gdy666/luci-app-lucky.git package/new/lucky
@@ -62,22 +78,6 @@ git clone https://github.com/zhiern/luci-app-socat package/new/luci-app-socat
 
 # taskplan
 git clone https://github.com/sirpdboy/luci-app-taskplan package/new/taskplan
-
-# kucat
-git clone https://github.com/sirpdboy/luci-theme-kucat package/new/kucat
-curl -s $mirror/openwrt/files/argon/bg1.jpg > package/new/kucat/luci-theme-kucat/htdocs/luci-static/kucat/img/bg1.jpg
-curl -s $mirror/openwrt/files/kucat/iconfont.ttf > package/new/luci-theme-argon/htdocs/luci-static/argon/fonts/iconfont.ttf
-curl -s $mirror/openwrt/files/kucat/iconfont.woff > package/new/luci-theme-argon/htdocs/luci-static/argon/fonts/iconfont.woff
-curl -s $mirror/openwrt/files/kucat/iconfont.woff2 > package/new/luci-theme-argon/htdocs/luci-static/argon/fonts/iconfont.woff2
-curl -s $mirror/openwrt/files/kucat/cascade.css > package/new/luci-theme-argon/htdocs/luci-static/argon/css/cascade.css
-sed -i \
-  -e 's|https://github.com/openwrt/luci|https://www.kejizero.online|g' \
-  -e 's|Powered by <%= ver.luciname %>|探索无限|g' \
-  -e 's|<a href="https://github.com/sirpdboy/kucat"  target="_blank">KuCatTheme <%# vPKG_VERSION %></a>|<a href="https://github.com/zhiern/OpenWRT-Mediatek"  target="_blank">ZeroWrt</a>|g' \
-  package/new/kucat/luci-theme-kucat/luasrc/view/themes/kucat/footer.htm
-
-# luci-app-kucat-config
-git clone https://github.com/sirpdboy/luci-app-kucat-config package/new/luci-app-kucat-config
 
 # timecontrol
 git clone https://github.com/sirpdboy/luci-app-timecontrol package/new/luci-app-timecontrol
