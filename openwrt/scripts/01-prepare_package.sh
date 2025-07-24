@@ -66,6 +66,10 @@ git clone https://github.com/sirpdboy/luci-app-taskplan package/new/taskplan
 # kucat
 git clone https://github.com/sirpdboy/luci-theme-kucat package/new/kucat
 curl -s $mirror/openwrt/files/argon/bg1.jpg > package/new/kucat/luci-theme-kucat/htdocs/luci-static/kucat/img/bg1.jpg
+curl -s $mirror/openwrt/files/kucat/iconfont.ttf > package/new/luci-theme-argon/htdocs/luci-static/argon/fonts/iconfont.ttf
+curl -s $mirror/openwrt/files/kucat/iconfont.woff > package/new/luci-theme-argon/htdocs/luci-static/argon/fonts/iconfont.woff
+curl -s $mirror/openwrt/files/kucat/iconfont.woff2 > package/new/luci-theme-argon/htdocs/luci-static/argon/fonts/iconfont.woff2
+curl -s $mirror/openwrt/files/kucat/cascade.css > package/new/luci-theme-argon/htdocs/luci-static/argon/css/cascade.css
 sed -i \
   -e 's|https://github.com/openwrt/luci|https://www.kejizero.online|g' \
   -e 's|Powered by <%= ver.luciname %>|探索无限|g' \
