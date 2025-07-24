@@ -39,11 +39,11 @@ sed -i "s/bing/none/g" package/new/luci-app-argon-config/root/etc/config/argon
 
 # kucat
 git clone https://github.com/sirpdboy/luci-theme-kucat package/new/kucat
-curl -s $mirror/openwrt/files/argon/bg1.jpg > package/new/kucat/luci-theme-kucat/htdocs/luci-static/kucat/img/bg1.jpg
+curl -s $mirror/openwrt/files/kucat/bg1.jpg > package/new/kucat/luci-theme-kucat/htdocs/luci-static/kucat/img/bg1.jpg
 curl -s $mirror/openwrt/files/kucat/jnaiconfont.ttf > package/new/kucat/luci-theme-kucat/htdocs/luci-static/kucat/fonts/jnaiconfont.ttf
 curl -s $mirror/openwrt/files/kucat/jnaiconfont.woff > package/new/kucat/luci-theme-kucat/htdocs/luci-static/kucat/fonts/jnaiconfont.woff
 curl -s $mirror/openwrt/files/kucat/jnaiconfont.woff2 > package/new/kucat/luci-theme-kucat/htdocs/luci-static/kucat/fonts/jnaiconfont.woff2
-curl -s $mirror/openwrt/files/kucat/cascade.css > package/new/kucat/luci-theme-kucat/htdocs/luci-static/kucat/css/style.css
+curl -s $mirror/openwrt/files/kucat/style.css > package/new/kucat/luci-theme-kucat/htdocs/luci-static/kucat/css/style.css
 
 # luci-app-kucat-config
 git clone https://github.com/sirpdboy/luci-app-kucat-config package/new/luci-app-kucat-config
