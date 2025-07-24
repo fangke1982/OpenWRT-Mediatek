@@ -64,8 +64,13 @@ git clone https://github.com/zhiern/luci-app-socat package/new/luci-app-socat
 git clone https://github.com/sirpdboy/luci-app-taskplan package/new/taskplan
 
 # kucat
-curl -s $mirror/openwrt/files/argon/bg1.jpg > package/new/kucat/luci-theme-kucat/htdocs/luci-static/kucat/img/bg1.jpg
 git clone https://github.com/sirpdboy/luci-theme-kucat package/new/kucat
+curl -s $mirror/openwrt/files/argon/bg1.jpg > package/new/kucat/luci-theme-kucat/htdocs/luci-static/kucat/img/bg1.jpg
+sed -i \
+  -e 's|https://github.com/openwrt/luci|https://www.kejizero.online|g' \
+  -e 's|Powered by <%= ver.luciname %>|探索无限|g' \
+  -e 's|<a href="https://github.com/sirpdboy/kucat"  target="_blank">KuCatTheme <%# vPKG_VERSION %></a>|<a href="https://github.com/zhiern/OpenWRT-Mediatek"  target="_blank">ZeroWrt</a>|g' \
+  package/new/kucat/luci-theme-kucat/luasrc/view/themes/kucat/footer.htm
 
 # luci-app-kucat-config
 git clone https://github.com/sirpdboy/luci-app-kucat-config package/new/luci-app-kucat-config
