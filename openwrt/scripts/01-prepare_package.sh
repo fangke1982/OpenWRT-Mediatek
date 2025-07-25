@@ -43,7 +43,31 @@ curl -s $mirror/openwrt/files/kucat/bg1.jpg > package/new/kucat/luci-theme-kucat
 curl -s $mirror/openwrt/files/kucat/jnaiconfont.ttf > package/new/kucat/luci-theme-kucat/htdocs/luci-static/kucat/fonts/jnaiconfont.ttf
 curl -s $mirror/openwrt/files/kucat/jnaiconfont.woff > package/new/kucat/luci-theme-kucat/htdocs/luci-static/kucat/fonts/jnaiconfont.woff
 curl -s $mirror/openwrt/files/kucat/jnaiconfont.woff2 > package/new/kucat/luci-theme-kucat/htdocs/luci-static/kucat/fonts/jnaiconfont.woff2
-curl -s $mirror/openwrt/files/kucat/style.css > package/new/kucat/luci-theme-kucat/htdocs/luci-static/kucat/css/style.css
+cat >> package/new/kucat/luci-theme-kucat/htdocs/luci-static/kucat/css/theme.css << 'EOF'
+
+@font-face {
+  font-family: "iconfont";
+  src: url('/luci-static/kucat/fonts/jnaiconfont.woff2') format('woff2'),
+       url('/luci-static/kucat/fonts/jnaiconfont.woff') format('woff'),
+       url('/luci-static/kucat/fonts/jnaiconfont.ttf') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.main .main-left .nav li a[data-title="Docker"]::before {
+  content: "\e659";
+  font-family: "iconfont" !important;
+  display: inline-block;
+  margin-right: 6px;
+  color: #ffffff;
+}
+EOF
 
 # luci-app-kucat-config
 git clone https://github.com/sirpdboy/luci-app-kucat-config package/new/luci-app-kucat-config
