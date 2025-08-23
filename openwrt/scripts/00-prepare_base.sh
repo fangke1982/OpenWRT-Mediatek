@@ -16,6 +16,9 @@ if [ -n "$ROOT_PASSWORD" ]; then
     sed -i "s|^root:[^:]*:|root:${default_password}:|" package/base-files/files/etc/shadow
 fi
 
+# 修复rust报错
+sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' feeds/packages/lang/rust/Makefile
+
 # distfeeds.conf
 mkdir -p files/etc/opkg
 cat > files/etc/opkg/distfeeds.conf <<EOF
