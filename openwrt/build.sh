@@ -20,26 +20,8 @@ endgroup() {
     GROUP=
 }
 
-# check
-if [ "$(whoami)" != "zhiern" ] && [ -z "$git_name" ] && [ -z "$git_password" ]; then
-    echo -e "\n${RED_COLOR} Not authorized. Execute the following command to provide authorization information:${RES}\n"
-    echo -e "${BLUE_COLOR} export git_name=your_username git_password=your_password${RES}\n"
-    exit 1
-fi
-
-#####################################
-#   Mediatek OpenWrt Build Script   #
-#####################################
-
-# Get the current warehouse address（GitHub Actions Provided environment variables）
-REPO_URL="https://github.com/${GITHUB_REPOSITORY}"
-
 # Set mirror variable
-if [ "$REPO_URL" = "https://github.com/zhiern/OpenWRT-Mediatek" ]; then
-    export mirror="http://127.0.0.1:8080"
-else
-    export mirror="https://init.kejizero.online"
-fi
+export mirror="http://127.0.0.1:8080"
 
 # GitHub mirror
 export github="github.com"
