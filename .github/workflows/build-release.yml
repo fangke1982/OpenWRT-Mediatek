@@ -41,12 +41,7 @@ on:
         required: false
         default: '12345678'
         type: string
-      build_options:
-        description: '构建选项 (使用空格分割多个变量)'
-        required: false
-        default: 'BUILD_FAST=y'
-        type: string
-
+        
 jobs:
   build:
     name: Build ${{ github.event.inputs.device }}
@@ -112,7 +107,7 @@ jobs:
         git_name: ${{ secrets.username }}
         git_password: ${{ secrets.password }}
       run: |
-        export ${{ github.event.inputs.build_options }} LAN=${{ github.event.inputs.lan_addr }} Wifi_Name="${{ github.event.inputs.wifi_name }}" Wifi_Password="${{ github.event.inputs.wifi_password }}"  USE_GCC13=y
+        export LAN=${{ github.event.inputs.lan_addr }} Wifi_Name="${{ github.event.inputs.wifi_name }}" Wifi_Password="${{ github.event.inputs.wifi_password }}"  USE_GCC13=y
         [ ${{ github.event.inputs.high_power }} = 'true' ] && export High_Power=y
         [ -n ${{ github.event.inputs.root_password }} ] && export ROOT_PASSWORD="${{ github.event.inputs.root_password }}"
         bash <(curl -sS http://127.0.0.1:8080/build.sh) ${{ github.event.inputs.device }}
