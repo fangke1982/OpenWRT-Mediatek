@@ -202,36 +202,27 @@ echo -e "CONFIG_GCC_USE_VERSION_${gcc_version}=y\n" >> .config
 [ "$(whoami)" = "runner" ] && endgroup
 
 # Toolchain Cache
-if [ "$BUILD_FAST" = "y" ]; then
-    TOOLCHAIN_URL="https://github.com/zhiern/openwrt_caches/releases/download/openwrt-24.10"
-    echo -e "\n${GREEN_COLOR}Download Toolchain ...${RES}"
-    curl -L -k "${TOOLCHAIN_URL}/toolchain_${toolchain_arch}_gcc-${gcc_version}.tar.zst" -o toolchain.tar.zst $CURL_BAR
-    echo -e "\n${GREEN_COLOR}Process Toolchain ...${RES}"
-    tar -I "zstd" -xf toolchain.tar.zst
-    rm -f toolchain.tar.zst
-    mkdir -p bin
-    find ./staging_dir/ -name '*' -exec touch {} \; >/dev/null 2>&1
-    find ./tmp/ -name '*' -exec touch {} \; >/dev/null 2>&1
-fi
+#if [ "$BUILD_FAST" = "y" ]; then
+#    TOOLCHAIN_URL="https://github.com/zhiern/openwrt_caches/releases/download/openwrt-24.10"
+#    echo -e "\n${GREEN_COLOR}Download Toolchain ...${RES}"
+#    curl -L -k "${TOOLCHAIN_URL}/toolchain_${toolchain_arch}_gcc-${gcc_version}.tar.zst" -o toolchain.tar.zst $CURL_BAR
+#    echo -e "\n${GREEN_COLOR}Process Toolchain ...${RES}"
+#    tar -I "zstd" -xf toolchain.tar.zst
+#    rm -f toolchain.tar.zst
+#    mkdir -p bin
+#    find ./staging_dir/ -name '*' -exec touch {} \; >/dev/null 2>&1
+#    find ./tmp/ -name '*' -exec touch {} \; >/dev/null 2>&1
+#fi
 
 # init openwrt config
 rm -rf tmp/*
 make defconfig
 
 # Compile
-if [ "$BUILD_TOOLCHAIN" = "y" ]; then
-    echo -e "\r\n${GREEN_COLOR}Building Toolchain ...${RES}\r\n"
-    make -j"$cores" toolchain/compile || make -j"$cores" toolchain/compile V=s || exit 1
-    mkdir -p toolchain-cache
-    tar -I "zstd -19 -T$(nproc --all)" -cf "toolchain-cache/toolchain_${toolchain_arch}_gcc-${gcc_version}.tar.zst" ./{build_dir,dl,staging_dir,tmp}
-    echo -e "\n${GREEN_COLOR} Build success! ${RES}"
-    exit 0
-else
-    echo -e "\r\n${GREEN_COLOR}Building OpenWrt ...${RES}\r\n"
-    sed -i "/BUILD_DATE/d" package/base-files/files/usr/lib/os-release
-    sed -i "/BUILD_ID/aBUILD_DATE=\"$CURRENT_DATE\"" package/base-files/files/usr/lib/os-release
-    make -j"$cores"
-fi
+echo -e "\r\n${GREEN_COLOR}Building OpenWrt ...${RES}\r\n"
+sed -i "/BUILD_DATE/d" package/base-files/files/usr/lib/os-release
+sed -i "/BUILD_ID/aBUILD_DATE=\"$CURRENT_DATE\"" package/base-files/files/usr/lib/os-release
+make -j"$cores"
 
 # Compile time
 endtime=$(date +'%Y-%m-%d %H:%M:%S')
