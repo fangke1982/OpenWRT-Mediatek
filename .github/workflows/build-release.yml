@@ -16,11 +16,10 @@ on:
           - 'Qihoo-360t7'
           - 'Qihoo-360t7-512rom'
           - 'Nokia_EA0326GMP'
-          - 'Nokia_EA0326GMP-512rom'
-      high_power:
-        description: '是否开启 Netcore-N60（Pro）高功率 '
-        type: boolean
-        default: true
+          - 'GL.iNet GL-MT3000'
+          - 'GL.iNet GL-MT2500'
+          - 'KOMI-A31'
+          - 'LC-HX3001'
       lan_addr:
         description: '设置默认 LAN 地址'
         required: true
