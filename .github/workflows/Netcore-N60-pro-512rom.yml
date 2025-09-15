@@ -1,4 +1,4 @@
-name: Netcore-N60-pro-512rom OpenWrt
+name: 磊科 N60 Pro 512闪存
 
 on:
   workflow_dispatch:
