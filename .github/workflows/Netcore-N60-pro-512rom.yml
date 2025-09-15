@@ -2,20 +2,11 @@ name: Netcore-N60-pro-512rom OpenWrt
 
 on:
   workflow_dispatch:
-    inputs:
-      runner:
-        description: "选择运行环境"
-        required: true
-        default: "ubuntu-22.04"
-        type: choice
-        options:
-          - ubuntu-22.04
-          - ubuntu-24.04
-          - self-hosted
 #  schedule:
 #    - cron: 1 23 * * 4
     
 env:
+  REPO_URL: http://10.0.0.245:3000/zhao/lede
   REPO_BRANCH: master
   CONFIG_FILE: configs/Netcore-N60-pro-512rom.config
   DIY_SCRIPT: diy-script.sh
@@ -28,52 +19,22 @@ env:
 
 jobs:
   Build:
-    runs-on: ${{ github.event.inputs.runner }}
+    runs-on: self-hosted
 
     steps:
-    - name: 设置源码地址
-      run: |
-        if [ "${{ github.event.inputs.runner }}" = "self-hosted" ]; then
-          echo "REPO_URL=http://10.0.0.245:3000/zhao/lede" >> $GITHUB_ENV
-        else
-          echo "REPO_URL=https://github.com/coolsnowwolf/lede" >> $GITHUB_ENV
-        fi
-  
-    - name: 检查服务器性能
-      run: |
-        echo "警告⚠"
-        echo "分配的服务器性能有限，若选择的插件过多，务必注意CPU性能！"
-        echo -e "已知CPU型号(降序): 7763，8370C，8272CL，8171M，E5-2673\n"
-        echo "--------------------------CPU信息--------------------------"
-        echo "CPU物理数量: $(cat /proc/cpuinfo | grep "physical id" | sort | uniq | wc -l)"
-        echo "CPU核心数量: $(nproc)"
-        echo -e "CPU型号信息:$(cat /proc/cpuinfo | grep -m1 name | awk -F: '{print $2}')\n"
-        echo "--------------------------内存信息--------------------------"
-        echo "已安装内存详细信息:"
-        echo -e "$(sudo lshw -short -C memory | grep GiB)\n"
-        echo "--------------------------硬盘信息--------------------------"
-        echo "硬盘数量: $(ls /dev/sd* | grep -v [1-9] | wc -l)" && df -hT
-
-    - name: 初始化环境
-      env:
-        DEBIAN_FRONTEND: noninteractive
-      run: |
-        docker rmi $(docker images -q)
-        sudo rm -rf /usr/share/dotnet /etc/apt/sources.list.d /usr/local/lib/android $AGENT_TOOLSDIRECTORY
-        sudo -E apt-get -y purge azure-cli ghc* zulu* llvm* firefox google* dotnet* powershell openjdk* mongodb* moby* || true
-        sudo -E apt-get -y update
-        sudo -E apt-get -y install $(curl -fsSL https://tinyurl.com/bdfpu9m5)
-        sudo -E systemctl daemon-reload
-        sudo -E apt-get -y autoremove --purge
-        sudo -E apt-get -y clean
-        sudo timedatectl set-timezone "$TZ"
-
-    - name: 合并磁盘
-      uses: easimon/maximize-build-space@master
+    - name: Checkout
+      continue-on-error: true
+      uses: actions/checkout@main
       with:
-        swap-size-mb: 1024
-        temp-reserve-mb: 100
-        root-reserve-mb: 1024
+        path: ZeroWrt-Mediatek
+
+    - name: Setup variables
+      run: |
+        sudo timedatectl set-timezone 'Asia/Shanghai'
+        git config --global user.name 'actions'
+        git config --global user.email 'action@github.com'
+        echo build_dir="/builder" >> "$GITHUB_ENV"
+        [ "${{ github.event.inputs.version }}" = release ] && echo build_version="rc2" >> "$GITHUB_ENV" || echo build_version="dev" >> "$GITHUB_ENV"
 
     - name: 克隆当前仓库
       uses: actions/checkout@main
@@ -83,7 +44,6 @@ jobs:
         df -hT $GITHUB_WORKSPACE
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         cd openwrt
-        curl -s "https://raw.githubusercontent.com/zhiern/ZeroWrt-Mediatek/refs/heads/main/other/feeds.conf.default" > feeds.conf.default
         echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
         COMMIT_AUTHOR=$(git show -s --date=short --format="作者: %an")
         echo "COMMIT_AUTHOR=$COMMIT_AUTHOR" >> $GITHUB_ENV
