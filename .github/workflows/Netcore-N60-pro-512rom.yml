@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 #  schedule:
 #    - cron: 1 23 * * 4
-    
+
 env:
   REPO_URL: http://10.0.0.245:3000/zhao/lede
   REPO_BRANCH: master
@@ -16,7 +16,7 @@ env:
   FIRMWARE_RELEASE: true
   FIRMWARE_TAG: Netcore-N60-pro-512rom
   TZ: Asia/Shanghai
-
+  
 jobs:
   Build:
     runs-on: self-hosted
@@ -28,21 +28,43 @@ jobs:
       with:
         path: ZeroWrt-Mediatek
 
-    - name: Setup variables
+    - name: 设置变量
       run: |
         sudo timedatectl set-timezone 'Asia/Shanghai'
         git config --global user.name 'actions'
         git config --global user.email 'action@github.com'
-        echo build_dir="/builder" >> "$GITHUB_ENV"
 
-    - name: 克隆当前仓库
-      uses: actions/checkout@main
+    - name: Show system
+      run: |
+        echo -e "\n\e[1;32mCPU:\e[0m"
+        echo "$(grep 'model name' /proc/cpuinfo | head -1 | awk -F ': ' '{print $2}') ($(grep 'cpu MHz' /proc/cpuinfo | head -1 | awk -F ': ' '{print $2}')MHz) x $(grep processor /proc/cpuinfo  | wc -l)"
+        echo -e "\n\e[1;32mMemory:\e[0m"
+        free -h
+        echo -e "\n\e[1;32mStorage:\e[0m"
+        df -Th / /mnt
+        echo -e "\n\e[1;32mSystem:\e[0m"
+        lsb_release -a
+        echo -e "\n\e[1;32mKernel:\e[0m"
+        uname -a
+        echo
+
+    - name: Install Caddy Server
+      run: |
+        sudo curl -sL -o /usr/bin/caddy http://10.0.0.245:3000/zhao/AutoSync/releases/download/Caddy/caddy
+        sudo chmod 755 /usr/bin/caddy
+        echo ":8080 {" > caddyfile
+        echo "    root * $(pwd)/ZeroWrt" >> caddyfile
+        echo "    file_server browse" >> caddyfile
+        echo "}" >> caddyfile
+        sudo /usr/bin/caddy start --config caddyfile --adapter caddyfile
 
     - name: 克隆源代码
       run: |
         df -hT $GITHUB_WORKSPACE
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         cd openwrt
+        cp -f $GITHUB_WORKSPACE/other/feeds.conf.default feeds.conf.default
+        patch -p1 < "$GITHUB_WORKSPACE/other0001-netcore-n60-pro-512rom.patch"
         echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
         COMMIT_AUTHOR=$(git show -s --date=short --format="作者: %an")
         echo "COMMIT_AUTHOR=$COMMIT_AUTHOR" >> $GITHUB_ENV
@@ -52,11 +74,6 @@ jobs:
         echo "COMMIT_MESSAGE=$COMMIT_MESSAGE" >> $GITHUB_ENV
         COMMIT_HASH=$(git show -s --date=short --format="hash: %H")
         echo "COMMIT_HASH=$COMMIT_HASH" >> $GITHUB_ENV
-
-    - name: 加载补丁文件
-      run: |
-        cd $OPENWRT_PATH
-        wget -qO - https://raw.githubusercontent.com/zhiern/ZeroWrt-Mediatek/refs/heads/main/other/0001-netcore-n60-pro-512rom.patch | patch -p1
         
     - name: 生成变量
       run: |
