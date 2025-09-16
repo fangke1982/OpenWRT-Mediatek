@@ -6,8 +6,7 @@ on:
 #    - cron: 1 23 * * 4
 
 env:
-  REPO_URL: ${{ secrets.script_url_repo }}
-  MIRROR_URL: ${{ secrets.script_url_mirror }}
+  REPO_URL: ${{ secrets.script_url_general }}
   REPO_BRANCH: master
   CONFIG_FILE: configs/Netcore-N60-pro-512rom.config
   DIY_SCRIPT: diy-script.sh
