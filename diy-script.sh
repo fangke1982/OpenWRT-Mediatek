@@ -18,6 +18,12 @@ rm -rf feeds/luci/themes/{luci-theme-argon,luci-theme-netgear}
 rm -rf feeds/packages/lang/golang
 git clone $mirror/packages_lang_golang -b 25.x feeds/packages/lang/golang
 
+# 私有插件源
+git clone http://10.0.0.245:3000/zhao/openwrt_packages package/openwrt_packages
+
+# 私有科学代理源
+git clone http://10.0.0.245:3000/zhao/openwrt_helloworld package/openwrt_helloworld
+
 # 更改 Argon 主题背景
 cp -f $GITHUB_WORKSPACE/other/bg1.jpg feeds/Zero/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
 
