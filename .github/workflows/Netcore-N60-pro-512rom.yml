@@ -7,6 +7,7 @@ on:
 
 env:
   REPO_URL: ${{ secrets.script_url_general }}
+  MIRROR_URL: ${{ secrets.script_url_mirror }}
   REPO_BRANCH: master
   CONFIG_FILE: configs/Netcore-N60-pro-512rom.config
   DIY_SCRIPT: diy-script.sh
