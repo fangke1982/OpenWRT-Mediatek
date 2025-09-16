@@ -6,7 +6,7 @@ on:
 #    - cron: 1 23 * * 4
 
 env:
-  REPO_URL: http://10.0.0.245:3000/zhao/lede
+  REPO_URL: ${{ secrets.script_url_general }}
   REPO_BRANCH: master
   CONFIG_FILE: configs/Netcore-N60-pro-512rom.config
   DIY_SCRIPT: diy-script.sh
