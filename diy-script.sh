@@ -42,9 +42,6 @@ git clone --depth=1 https://$github/Jason6111/luci-app-netdata package/luci-app-
 git_sparse_clone main https://$github/Lienol/openwrt-package luci-app-filebrowser luci-app-ssr-mudb-server
 git_sparse_clone openwrt-18.06 https://$github/immortalwrt/luci applications/luci-app-eqos
 
-# 科学上网插件
-git clone --depth=1 $mirror/openwrt_helloworld package/helloworld
-
 # Themes
 git clone --depth=1 -b 18.06 $mirror/luci-theme-argon package/luci-theme-argon
 git clone --depth=1 -b 18.06 $mirror/luci-app-argon-config package/luci-app-argon-config
