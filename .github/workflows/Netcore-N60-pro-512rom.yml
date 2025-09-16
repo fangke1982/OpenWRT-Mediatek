@@ -15,7 +15,6 @@ env:
   UPLOAD_BIN_DIR: false
   FIRMWARE_RELEASE: true
   FIRMWARE_TAG: Netcore-N60-pro-512rom
-  TZ: Asia/Shanghai
   
 jobs:
   Build:
