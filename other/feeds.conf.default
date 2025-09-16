@@ -2,5 +2,3 @@ src-git packages http://10.0.0.245:3000/zhao/packages
 src-git luci http://10.0.0.245:3000/zhao/luci
 src-git routing http://10.0.0.245:3000/zhao/routing
 src-git telephony http://10.0.0.245:3000/zhao/telephony
-src-git helloworld http://10.0.0.245:3000/zhao/openwrt_helloworld
-src-git Zero http://10.0.0.245:3000/zhao/openwrt_packages
