@@ -24,8 +24,8 @@ function git_sparse_clone() {
 }
 
 # 移除要替换的包
-rm -rf feeds/packages/net/{mosdns,pdnsd-alt,xray-core,v2ray-geodata,sing-box,chinadns-ng,dns2socks,hysteria,ipt2socks,microsocks,naiveproxy,shadowsocks-libev,shadowsocks-rust,shadowsocksr-libev,simple-obfs,tcping,trojan-plus,tuic-client,v2ray-plugin,xray-plugin,geoview,shadow-tls}
-rm -rf feeds/luci/applications/{luci-app-mosdns,luci-app-netdata,luci-app-serverchan}
+rm -rf feeds/packages/net/{lucky,mosdns,pdnsd-alt,xray-core,v2ray-geodata,sing-box,chinadns-ng,dns2socks,hysteria,ipt2socks,microsocks,naiveproxy,shadowsocks-libev,shadowsocks-rust,shadowsocksr-libev,simple-obfs,tcping,trojan-plus,tuic-client,v2ray-plugin,xray-plugin,geoview,shadow-tls}
+rm -rf feeds/luci/applications/{luci-app-mosdns,luci-app-netdata,luci-app-serverchan,luci-app-lucky}
 rm -rf feeds/luci/themes/{luci-theme-argon,luci-theme-netgear}
 
 # golang 1.25
@@ -64,8 +64,8 @@ sed -i 's/LEDE/ZeroWrt 标准版 @/g' package/lean/default-settings/files/zzz-de
 cp -f $GITHUB_WORKSPACE/other/banner package/base-files/files/etc/banner
 
 # 修改默认主题
-sed -i 's/luci-theme-bootstrap/luci-theme-design/g' feeds/luci/collections/luci/Makefile
-sed -i 's/luci-theme-bootstrap/luci-theme-design/g' feeds/luci/collections/luci-nginx/Makefile
+sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
+sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci-nginx/Makefile
 
 # WIFI相关设置
 cp -f $GITHUB_WORKSPACE/other/mac80211.sh package/kernel/mac80211/files/lib/wifi/mac80211.sh
