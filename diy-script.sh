@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# 设置变量
-export github="github.com"
-export mirror="http://10.0.0.245:3000/zhao"
-
 # 修改默认IP
 sed -i 's/192.168.1.1/10.0.0.1/g' package/base-files/files/bin/config_generate
 
