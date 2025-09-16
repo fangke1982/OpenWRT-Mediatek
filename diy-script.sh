@@ -32,22 +32,8 @@ rm -rf feeds/luci/themes/{luci-theme-argon,luci-theme-netgear}
 rm -rf feeds/packages/lang/golang
 git clone $mirror/packages_lang_golang -b 25.x feeds/packages/lang/golang
 
-# 添加额外插件
-git clone --depth=1 https://$github/kongfl888/luci-app-adguardhome package/luci-app-adguardhome
-git clone --depth=1 -b openwrt-18.06 https://$github/tty228/luci-app-wechatpush package/luci-app-serverchan
-git clone --depth=1 https://$github/ilxp/luci-app-ikoolproxy package/luci-app-ikoolproxy
-git clone --depth=1 https://$github/esirplayground/luci-app-poweroff package/luci-app-poweroff
-git clone --depth=1 https://$github/destan19/OpenAppFilter package/OpenAppFilter
-git clone --depth=1 https://$github/Jason6111/luci-app-netdata package/luci-app-netdata
-git_sparse_clone main https://$github/Lienol/openwrt-package luci-app-filebrowser luci-app-ssr-mudb-server
-git_sparse_clone openwrt-18.06 https://$github/immortalwrt/luci applications/luci-app-eqos
-
-# Themes
-git clone --depth=1 -b 18.06 $mirror/luci-theme-argon package/luci-theme-argon
-git clone --depth=1 -b 18.06 $mirror/luci-app-argon-config package/luci-app-argon-config
-
 # 更改 Argon 主题背景
-cp -f $GITHUB_WORKSPACE/other/bg1.jpg package/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
+cp -f $GITHUB_WORKSPACE/other/bg1.jpg feeds/Zero/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
 
 # MosDNS
 git clone --depth=1 $mirror/v2ray-geodata package/v2ray-geodata
