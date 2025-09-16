@@ -167,7 +167,7 @@ jobs:
           - ${{ env.COMMIT_MESSAGE }}
           - ${{ env.COMMIT_HASH }}
 
-    - name: Delete releases and workflows runs
+    - name: 删除旧的工作流和标签
       uses: ophub/delete-releases-workflows@main
       with:
         delete_releases: true
