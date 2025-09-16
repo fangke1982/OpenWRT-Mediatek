@@ -29,7 +29,7 @@ git clone $mirror/openwrt_packages package/openwrt_packages
 git clone $mirror/openwrt_helloworld package/openwrt_helloworld
 
 # 更改 Argon 主题背景
-cp -f $GITHUB_WORKSPACE/other/bg1.jpg feeds/Zero/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
+cp -f $GITHUB_WORKSPACE/other/bg1.jpg package/openwrt_packages/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
 
 # 默认设置
 cp -f $GITHUB_WORKSPACE/other/zzz-default-settings package/lean/default-settings/files/zzz-default-settings
