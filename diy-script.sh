@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# 设置变量
-export github="github.com"
-export mirror="http://10.0.0.245:3000/zhao"
-
 # 修改默认IP
 sed -i 's/192.168.1.1/10.0.0.1/g' package/base-files/files/bin/config_generate
 
@@ -20,13 +16,13 @@ rm -rf feeds/luci/themes/{luci-theme-argon,luci-theme-netgear}
 
 # golang 1.25
 rm -rf feeds/packages/lang/golang
-git clone $mirror/packages_lang_golang -b 25.x feeds/packages/lang/golang
+git clone $MIRROR_URL/packages_lang_golang -b 25.x feeds/packages/lang/golang
 
 # 私有插件源
-git clone $mirror/openwrt_packages package/openwrt_packages
+git clone $MIRROR_URL/openwrt_packages package/openwrt_packages
 
 # 私有科学代理源
-git clone $mirror/openwrt_helloworld package/openwrt_helloworld
+git clone $MIRROR_URL/openwrt_helloworld package/openwrt_helloworld
 
 # 更改 Argon 主题背景
 cp -f $GITHUB_WORKSPACE/other/bg1.jpg package/openwrt_packages/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
