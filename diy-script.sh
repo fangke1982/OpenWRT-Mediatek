@@ -44,7 +44,7 @@ git clone --depth=1 $mirror/v2ray-geodata package/v2ray-geodata
 git clone --depth=1 -b v5-lua $mirror/luci-app-mosdns package/new/luci-app-mosdns
 
 # 默认设置
-cp -f $GITHUB_WORKSPACE/scripts/zzz-default-settings package/lean/default-settings/files/zzz-default-settings
+cp -f $GITHUB_WORKSPACE/other/zzz-default-settings package/lean/default-settings/files/zzz-default-settings
 
 # 修改版本为编译日期
 date_version=$(date +"%y.%m.%d")
@@ -58,7 +58,7 @@ sed -i 's/luci-theme-bootstrap/luci-theme-design/g' feeds/luci/collections/luci/
 sed -i 's/luci-theme-bootstrap/luci-theme-design/g' feeds/luci/collections/luci-nginx/Makefile
 
 # WIFI相关设置
-cp -f $GITHUB_WORKSPACE/scripts/mac80211.sh package/kernel/mac80211/files/lib/wifi/mac80211.sh
+cp -f $GITHUB_WORKSPACE/other/mac80211.sh package/kernel/mac80211/files/lib/wifi/mac80211.sh
 
 # 切换内核版本为6.12
 sed -i 's/6.6/6.12/g' target/linux/mediatek/Makefile
