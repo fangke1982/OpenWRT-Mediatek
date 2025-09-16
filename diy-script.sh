@@ -49,6 +49,9 @@ git clone --depth=1 $mirror/openwrt_helloworld package/helloworld
 git clone --depth=1 -b 18.06 $mirror/luci-theme-argon package/luci-theme-argon
 git clone --depth=1 -b 18.06 $mirror/luci-app-argon-config package/luci-app-argon-config
 
+# 更改 Argon 主题背景
+cp -f $GITHUB_WORKSPACE/other/bg1.jpg package/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
+
 # MosDNS
 git clone --depth=1 $mirror/v2ray-geodata package/v2ray-geodata
 git clone --depth=1 -b v5-lua $mirror/luci-app-mosdns package/luci-app-mosdns
