@@ -22,19 +22,12 @@ jobs:
     runs-on: self-hosted
 
     steps:
-    - name: Checkout
-      continue-on-error: true
+    - name: 查看
       uses: actions/checkout@main
       with:
         path: ZeroWrt-Mediatek
 
-    - name: 设置变量
-      run: |
-        sudo timedatectl set-timezone 'Asia/Shanghai'
-        git config --global user.name 'actions'
-        git config --global user.email 'action@github.com'
-
-    - name: Show system
+    - name: 查看系统信息
       run: |
         echo -e "\n\e[1;32mCPU:\e[0m"
         echo "$(grep 'model name' /proc/cpuinfo | head -1 | awk -F ': ' '{print $2}') ($(grep 'cpu MHz' /proc/cpuinfo | head -1 | awk -F ': ' '{print $2}')MHz) x $(grep processor /proc/cpuinfo  | wc -l)"
