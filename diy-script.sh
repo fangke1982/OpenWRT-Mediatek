@@ -45,7 +45,7 @@ function addLinks() {
     var section = document.querySelector(".cbi-section");
     if (section) {
         var links = document.createElement('div');
-        links.innerHTML = '<div class="table"><div class="tr"><div class="td left" width="33%"><a href="https://qm.qq.com/q/JbBVnkjzKa" target="_blank">QQ交流群</a></div><div class="td left" width="33%"><a href="https://t.me/kejizero" target="_blank">TG交流群</a></div><div class="td left"><a href="https://openwrt.kejizero.online" target="_blank">固件地址</a></div></div></div>';
+        links.innerHTML = '<div class="table"><div class="tr"><div class="td left" width="33%"><a href="https://qm.qq.com/q/JbBVnkjzKa" target="_blank">QQ交流群</a></div><div class="td left" width="33%"><a href="https://t.me/kejizero" target="_blank">TG交流群</a></div><div class="td left"><a href="https://github.com/NeonPulse-Zero/ZeroWrt-Mediatek/releases/tag/Netcore-N60-pro-512rom" target="_blank">固件地址</a></div></div></div>';
         section.appendChild(links);
     } else {
         setTimeout(addLinks, 100); // 继续等待 `.cbi-section` 加载
