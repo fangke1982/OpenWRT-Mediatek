@@ -61,18 +61,11 @@ jobs:
           sha256sum output/* | sed "s|output/||" > "output/sha256sums"
           echo "ARTIFACT_NAME=$SOC-$BOARD" >> "$GITHUB_ENV"
           
-          # 打包输出成 zip 文件，防止上传目录和同名文件冲突
-          ZIP_NAME="${SOC}-${BOARD}.zip"
-          zip -r "$ZIP_NAME" output/*
-
-          # 设置 artifact 名称为 zip 文件名
-          echo "ARTIFACT_NAME=$ZIP_NAME" >> "$GITHUB_ENV"
-          
       - name: Upload build outputs
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.ARTIFACT_NAME }}
-          path: ${{ env.ARTIFACT_NAME }}
+          path: output/*
 
   release:
     name: Upload all to GitHub Release
