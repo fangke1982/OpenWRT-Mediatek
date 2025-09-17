@@ -64,13 +64,17 @@ jobs:
               export SOC=mt7986
               BOARD=netcore_n60-pro
               export BOARD="$BOARD"
+              ./build.sh
+              mv output/mt7986_netcore_n60-pro-bl2.bin output/mt7986_netcore_n60-pro-512rom-bl2.bin
+              mv output/mt7986_netcore_n60-pro-fip-fixed-parts.bin output/mt7986_netcore_n60-pro-512rom-fip-fixed-parts.bin
+              echo "ARTIFACT_NAME=$SOC-$BOARD-512rom" >> "$GITHUB_ENV"
           else 
               export SOC="${CONFIG%%-*}"
               BOARD="${CONFIG#*-}"
               export BOARD="$BOARD"
+              ./build.sh   
+              echo "ARTIFACT_NAME=$SOC-$BOARD" >> "$GITHUB_ENV"
           fi
-          ./build.sh   
-          echo "ARTIFACT_NAME=$SOC-$BOARD" >> "$GITHUB_ENV"
                
       - name: Upload build outputs
         uses: actions/upload-artifact@v4
