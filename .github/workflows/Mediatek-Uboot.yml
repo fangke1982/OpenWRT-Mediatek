@@ -57,8 +57,7 @@ jobs:
           BOARD="${CONFIG#*-}"
           export BOARD="$BOARD"
           mkdir -p "output"
-          ./build.sh 2>&1 | tee "output/build.log"
-          sha256sum output/* | sed "s|output/||" > "output/sha256sums"
+          ./build.sh
           echo "ARTIFACT_NAME=$SOC-$BOARD" >> "$GITHUB_ENV"
           
       - name: Upload build outputs
@@ -67,16 +66,6 @@ jobs:
           name: ${{ env.ARTIFACT_NAME }}
           path: output/*
 
-  release:
-    name: Upload all to GitHub Release
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: release
-
       - name: Upload firmware to release
         uses: ncipollo/release-action@v1
         with:
@@ -84,7 +73,7 @@ jobs:
           allowUpdates: true
           tag: MT798X_Uboot
           token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: release/*.zip   # ✅ 只上传 zip 文件
+          artifacts: output/*
           body: |
             # 🛠️ mt798x uboot 功能介绍
 
