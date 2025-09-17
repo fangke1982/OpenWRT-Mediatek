@@ -37,6 +37,25 @@ sed -i "s/${orig_version}/R${date_version} by OPPEN321/g" package/lean/default-s
 sed -i 's/LEDE/ZeroWrt 标准版 @/g' package/lean/default-settings/files/zzz-default-settings
 cp -f $GITHUB_WORKSPACE/other/banner package/base-files/files/etc/banner
 
+# 版本设置
+cat >> feeds/luci/modules/luci-mod-admin-full/luasrc/view/admin_status/index.htm << 'EOF'
+
+<script>
+function addLinks() {
+    var section = document.querySelector(".cbi-section");
+    if (section) {
+        var links = document.createElement('div');
+        links.innerHTML = '<div class="table"><div class="tr"><div class="td left" width="33%"><a href="https://qm.qq.com/q/JbBVnkjzKa" target="_blank">QQ交流群</a></div><div class="td left" width="33%"><a href="https://t.me/kejizero" target="_blank">TG交流群</a></div><div class="td left"><a href="https://openwrt.kejizero.online" target="_blank">固件地址</a></div></div></div>';
+        section.appendChild(links);
+    } else {
+        setTimeout(addLinks, 100); // 继续等待 `.cbi-section` 加载
+    }
+}
+
+document.addEventListener("DOMContentLoaded", addLinks);
+</script>
+EOF
+
 # 修改默认主题
 sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
 sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci-nginx/Makefile
