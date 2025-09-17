@@ -1,62 +1,64 @@
 name: Build BL2 and FIP
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:   # 手动触发，不再需要选择设备
 
 jobs:
-  generate_list:
-    name: Generate build list
-    runs-on: ubuntu-latest
-    outputs:
-      list: ${{ steps.list.outputs.list }}
-
-    steps:
-      - name: Checkout source tree
-        uses: actions/checkout@v4
-        with:
-          repository: NeonPulse-Zero/bl-mt798x
-          fetch-depth: 0
-
-      - name: Generate build list
-        id: list
-        run: |
-          COMMIT="$(git log --pretty=format:"%H" -1 uboot-mtk-*/configs)"
-          CONFIGS="$(git show --name-only "$COMMIT" | awk -F '/' '/^uboot.*defconfig$/ {printf "\"%s\",", $NF}' | sed 's/,$//')"
-          JSON_LIST="{\"runner\": [\"ubuntu-latest\"],\"list\": [$CONFIGS]}"
-          echo "$JSON_LIST" | jq .
-          echo "list=$JSON_LIST" >> "$GITHUB_OUTPUT"
-
   build:
-    name: Build ${{ matrix.list }}
-    needs: generate_list
-    runs-on: ${{ matrix.runner }}
+    name: Build ${{ matrix.device }}
+    runs-on: self-hosted
     strategy:
-      matrix: ${{ fromJson(needs.generate_list.outputs.list) }}
       fail-fast: false
       max-parallel: 15
+      matrix:
+        device:
+          - mt7981-360t7
+          - mt7981-abt_asr3000
+          - mt7981-ax3000t
+          - mt7981-ax3000t_an8855
+          - mt7981-cetron_ct3003
+          - mt7981-cmcc_a10
+          - mt7981-cmcc_rax3000m
+          - mt7981-cmcc_rax3000m-emmc
+          - mt7981-cudy_tr3000-v1
+          - mt7981-h3c_magic-nx30-pro
+          - mt7981-imou_lc-hx3001
+          - mt7981-jcg_q30
+          - mt7981-konka_komi-a31
+          - mt7981-livinet_zr-3020
+          - mt7981-nokia_ea0326gmp
+          - mt7981-wr30u
+          - mt7986-jdcloud_re-cp-03
+          - mt7986-netcore_n60
+          - mt7986-netcore_n60-pro
+          - mt7986-redmi_ax6000
+          - mt7986-tplink_tl-xdr608x
+          - mt7986-tplink_tl-xtr8488
 
     steps:
       - name: Install dependencies
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          sudo -E apt-get install gcc-aarch64-linux-gnu build-essential flex bison libssl-dev device-tree-compiler
+          sudo -E apt-get update
+          sudo -E apt-get install gcc-aarch64-linux-gnu build-essential flex bison libssl-dev device-tree-compiler jq
 
       - name: Checkout source tree
         uses: actions/checkout@v4
         with:
-          repository: NeonPulse-Zero/bl-mt798x
-
+          repository: NeonPulse-Zero/bl-mt798x   # ✅ 指定源码仓库
+          fetch-depth: 0
+          
       - name: Build BL2 and FIP
         env:
-          CONFIG: ${{ matrix.list }}
+          CONFIG: ${{ matrix.device }}
         run: |
-          export SOC="${CONFIG%%_*}"
-          BOARD="${CONFIG#*_}"
-          export BOARD="${BOARD%_*}"
+          export SOC="${CONFIG%%-*}"
+          BOARD="${CONFIG#*-}"
+          export BOARD="$BOARD"
           mkdir -p "output"
           ./build.sh 2>&1 | tee "output/build.log"
-          sha256sum "output"/* | sed "s|output/||" > "output/sha256sums"
+          sha256sum output/* | sed "s|output/||" > "output/sha256sums"
           echo "ARTIFACT_NAME=$SOC-$BOARD" >> "$GITHUB_ENV"
 
       - name: Upload build outputs
@@ -65,10 +67,21 @@ jobs:
           name: ${{ env.ARTIFACT_NAME }}
           path: output/*
 
-      - name: Create release
+  release:
+    name: Upload all to GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release
+
+      - name: Upload firmware to release
         uses: softprops/action-gh-release@v2
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: Mediatek-Uboot
-          files: output/*
+          tag_name: MT798X_Uboot
+          body_path: other/uboot.md
+          files: release/**/*
