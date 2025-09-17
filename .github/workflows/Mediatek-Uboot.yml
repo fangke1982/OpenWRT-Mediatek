@@ -1,7 +1,7 @@
-name: 🚀 Mediatek-Uboot
+name: 🚀 Mediatek Uboot
 
 on:
-  workflow_dispatch:   # 手动触发，不再需要选择设备
+  workflow_dispatch:
 
 jobs:
   build:
