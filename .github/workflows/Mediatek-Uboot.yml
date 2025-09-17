@@ -78,15 +78,6 @@ jobs:
           path: release
 
       - name: Upload firmware to release
-        uses: softprops/action-gh-release@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: MT798X_Uboot
-          body_path: info.md
-          files: release/**/*
-
-      - name: Upload firmware to release
         uses: ncipollo/release-action@v1
         with:
           name: MT798X_Uboot
