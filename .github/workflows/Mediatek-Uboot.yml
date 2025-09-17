@@ -31,7 +31,7 @@ jobs:
           - mt7986-jdcloud_re-cp-03
           - mt7986-netcore_n60
           - mt7986-netcore_n60-pro
-#          - mt7986-netcore_n60-pro-512rom
+          - mt7986-netcore_n60-pro-512rom
           - mt7986-redmi_ax6000
           - mt7986-tplink_tl-xdr608x
           - mt7986-tplink_tl-xtr8488
