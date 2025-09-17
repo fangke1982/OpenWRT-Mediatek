@@ -54,13 +54,24 @@ jobs:
         env:
           CONFIG: ${{ matrix.device }}
         run: |
-          export SOC="${CONFIG%%-*}"
-          BOARD="${CONFIG#*-}"
-          export BOARD="$BOARD"
+          # 创建输出文件夹
           mkdir -p "output"
-          ./build.sh
-          echo "ARTIFACT_NAME=$SOC-$BOARD" >> "$GITHUB_ENV"
           
+          # 针对 mt7986-netcore_n60-pro-512rom 修改配置
+          if [ "${{ matrix.device }}" = "mt7986-netcore_n60-pro-512rom" ]; then
+              CONFIG_FILE="./uboot-mtk-20230718-09eda825/configs/mt7986_netcore_n60-pro_defconfig"
+              sed -i 's/CONFIG_MTDPARTS_DEFAULT=.*/CONFIG_MTDPARTS_DEFAULT="nmbm0:1024k(bl2),512k(u-boot-env),2048k(factory),2048k(fip),470m(ubi)"/' "$CONFIG_FILE"
+              export SOC=mt7986
+              BOARD=netcore_n60-pro
+              export BOARD="$BOARD"
+          else 
+              export SOC="${CONFIG%%-*}"
+              BOARD="${CONFIG#*-}"
+              export BOARD="$BOARD"
+          fi
+          ./build.sh   
+          echo "ARTIFACT_NAME=$SOC-$BOARD" >> "$GITHUB_ENV"
+               
       - name: Upload build outputs
         uses: actions/upload-artifact@v4
         with:
