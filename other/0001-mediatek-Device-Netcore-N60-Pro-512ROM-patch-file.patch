@@ -1,0 +1,34 @@
+From eb30a2b31012e6ce7408eefec1401f448be88ee3 Mon Sep 17 00:00:00 2001
+From: OPPEN321 <zj18139624826@gmail.com>
+Date: Wed, 17 Sep 2025 15:20:21 +0800
+Subject: [PATCH] mediatek: Device Netcore N60 Pro 512ROM patch file
+
+Signed-off-by: OPPEN321 <zj18139624826@gmail.com>
+---
+ target/linux/mediatek/dts/mt7986a-netcore-n60-pro.dts | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/target/linux/mediatek/dts/mt7986a-netcore-n60-pro.dts b/target/linux/mediatek/dts/mt7986a-netcore-n60-pro.dts
+index becd1e61a..90e8cbb51 100644
+--- a/target/linux/mediatek/dts/mt7986a-netcore-n60-pro.dts
++++ b/target/linux/mediatek/dts/mt7986a-netcore-n60-pro.dts
+@@ -7,7 +7,7 @@
+ #include "mt7986a.dtsi"
+ 
+ / {
+-	model = "Netcore N60 PRO";
++	model = "Netcore N60 PRO 512ROM";
+ 	compatible = "netcore,n60-pro", "mediatek,mt7986a";
+ 
+ 	aliases {
+@@ -241,7 +241,7 @@
+ 
+ 			partition@580000 {
+ 				label = "ubi";
+-				reg = <0x0580000 0x7280000>;
++				reg = <0x0580000 0x1ea00000>;
+ 			};
+ 		};
+ 	};
+-- 
+2.43.0
