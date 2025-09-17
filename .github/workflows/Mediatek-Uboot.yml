@@ -60,12 +60,19 @@ jobs:
           ./build.sh 2>&1 | tee "output/build.log"
           sha256sum output/* | sed "s|output/||" > "output/sha256sums"
           echo "ARTIFACT_NAME=$SOC-$BOARD" >> "$GITHUB_ENV"
+          
+          # 打包输出成 zip 文件，防止上传目录和同名文件冲突
+          ZIP_NAME="${SOC}-${BOARD}.zip"
+          zip -r "$ZIP_NAME" output/*
 
+          # 设置 artifact 名称为 zip 文件名
+          echo "ARTIFACT_NAME=$ZIP_NAME" >> "$GITHUB_ENV"
+          
       - name: Upload build outputs
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.ARTIFACT_NAME }}
-          path: output/*
+          path: ${{ env.ARTIFACT_NAME }}
 
   release:
     name: Upload all to GitHub Release
@@ -84,7 +91,7 @@ jobs:
           allowUpdates: true
           tag: MT798X_Uboot
           token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: release/**/*
+          artifacts: release/*.zip   # ✅ 只上传 zip 文件
           body: |
             # 🛠️ mt798x uboot 功能介绍
 
@@ -99,4 +106,4 @@ jobs:
 
             - 🛠️ 支持多种 Flash 分区布局切换功能（仅支持 spi-nand），可以在 webui 中切换不同的分区布局，完美兼容小米原厂固件  
 
-            - 🛠️ 加入完整的中文汉化界面，不仅菜单和提示信息均已本地化，还优化了交互体验，方便国内用户快速上手使用  
+            - 🛠️ 加入完整的中文汉化界面，不仅菜单和提示信息均已本地化，还优化了交互体验，方便国内用户快速上手使用
