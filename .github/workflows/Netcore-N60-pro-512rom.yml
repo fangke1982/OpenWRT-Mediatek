@@ -44,8 +44,8 @@ jobs:
         df -hT $GITHUB_WORKSPACE
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         cd openwrt
-        curl -s "https://raw.githubusercontent.com/NeonPulse-Zero/ZeroWrt-Mediatek/refs/heads/openwrt-24.10/other/feeds.conf.default" > feeds.conf.default
-        wget -qO - https://raw.githubusercontent.com/NeonPulse-Zero/ZeroWrt-Mediatek/refs/heads/openwrt-24.10/other/0001-mediatek-Device-Netcore-N60-Pro-512ROM-patch-file.patch | patch -p1
+        curl -s "https://raw.githubusercontent.com/NeonPulse-Zero/ZeroWrt-Mediatek/refs/heads/master/other/feeds.conf.default" > feeds.conf.default
+        wget -qO - https://raw.githubusercontent.com/NeonPulse-Zero/ZeroWrt-Mediatek/refs/heads/master/other/0001-mediatek-Device-Netcore-N60-Pro-512ROM-patch-file.patch | patch -p1
         echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
         COMMIT_AUTHOR=$(git show -s --date=short --format="作者: %an")
         echo "COMMIT_AUTHOR=$COMMIT_AUTHOR" >> $GITHUB_ENV
