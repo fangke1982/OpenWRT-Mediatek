@@ -61,6 +61,25 @@ echo "log-facility=/dev/null" >> /etc/dnsmasq.conf
 rm -rf /tmp/luci-modulecache/
 rm -f /tmp/luci-indexcache
 
+# 版本设置
+cat >> /usr/lib/lua/luci/view/admin_status/index.htm << 'EOF'
+
+<script>
+function addLinks() {
+    var section = document.querySelector(".cbi-section");
+    if (section) {
+        var links = document.createElement('div');
+        links.innerHTML = '<div class="table"><div class="tr"><div class="td left" width="33%"><a href="https://qm.qq.com/q/JbBVnkjzKa" target="_blank">QQ交流群</a></div><div class="td left" width="33%"><a href="https://t.me/kejizero" target="_blank">TG交流群</a></div><div class="td left"><a href="https://github.com/NeonPulse-Zero/ZeroWrt-Mediatek/releases/tag/Netcore-N60-pro-512rom" target="_blank">固件地址</a></div></div></div>';
+        section.appendChild(links);
+    } else {
+        setTimeout(addLinks, 100); // 继续等待 `.cbi-section` 加载
+    }
+}
+
+document.addEventListener("DOMContentLoaded", addLinks);
+</script>
+EOF
+
 # Set turboacc
 uci set turboacc.config.bbr_cca='1'
 uci set turboacc.config.hw_wed='1'
