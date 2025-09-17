@@ -83,5 +83,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: MT798X_Uboot
-          body_path: other/uboot.md
+          body_path: info.md
           files: release/**/*
