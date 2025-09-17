@@ -61,17 +61,16 @@ echo "log-facility=/dev/null" >> /etc/dnsmasq.conf
 rm -rf /tmp/luci-modulecache/
 rm -f /tmp/luci-indexcache
 
-# 设置开启 BBR 拥塞控制算法
+# Set turboacc
 uci set turboacc.config.bbr_cca='1'
-
-# 设置开启 MTK 平台硬件加速（WED）
 uci set turboacc.config.hw_wed='1'
-
-# 保存配置
 uci commit turboacc
-
-# 重启 turboacc 服务（如有）
 /etc/init.d/turboacc restart
+
+# Set lucky
+uci set lucky.@lucky[0].enabled='0'
+uci commit lucky
+/etc/init.d/lucky restart
 
 # diagnostics
 uci set luci.diag.ping='www.qq.com'
