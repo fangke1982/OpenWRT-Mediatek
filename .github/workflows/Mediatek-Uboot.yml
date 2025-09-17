@@ -84,7 +84,7 @@ jobs:
           allowUpdates: true
           tag: MT798X_Uboot
           token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: release/*
+          artifacts: release/**/*
           body: |
             # 🛠️ mt798x uboot 功能介绍
 
