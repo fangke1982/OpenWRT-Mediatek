@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     name: Build ${{ matrix.device }}
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       max-parallel: 15
@@ -36,6 +36,13 @@ jobs:
           - mt7986-tplink_tl-xtr8488
 
     steps:
+      - name: Install dependencies
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo -E apt-get update
+          sudo -E apt-get install gcc-aarch64-linux-gnu build-essential flex bison libssl-dev device-tree-compiler jq
+          
       - name: Checkout source tree
         uses: actions/checkout@v4
         with:
