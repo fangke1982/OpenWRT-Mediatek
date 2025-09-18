@@ -1,7 +1,11 @@
 name: 🗑️ 删除旧的工作流
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:   # 手动触发
+  workflow_run:       # 在 Build workflow 完成后触发
+    workflows: ["🚀 磊科 N60 Pro 512闪存"]   # 填你 Build workflow 的名字
+    types:
+      - completed
   schedule:
     - cron: 0 3 * * *
 
