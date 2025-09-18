@@ -37,6 +37,10 @@ sed -i "s/${orig_version}/R${date_version} by OPPEN321/g" package/lean/default-s
 sed -i 's/LEDE/ZeroWrt 标准版 @/g' package/lean/default-settings/files/zzz-default-settings
 cp -f $GITHUB_WORKSPACE/other/banner package/base-files/files/etc/banner
 
+# 个性化设置
+sed -i ':a;N;$!ba;s|<a class="luci-link" href="https://github.com/openwrt/luci" target="_blank">Powered by <%= ver.luciname %>[[:space:]]*(<%= ver.luciversion %>)</a> /|<a class="luci-link" href="www.kejizero.online" target="_blank">探索无限</a> /|' package/openwrt_packages/luci-theme-argon/luasrc/view/themes/argon/footer.htm
+sed -i 's|<a href="https://github.com/jerrykuku/luci-theme-argon" target="_blank">ArgonTheme <%# vPKG_VERSION %></a> /|<a href="https://github.com/NeonPulse-Zero/ZeroWrt-Mediatek" target="_blank">项目地址</a> /|' package/openwrt_packages/luci-theme-argon/luasrc/view/themes/argon/footer.htm
+
 # 修改默认主题
 sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
 sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci-nginx/Makefile
