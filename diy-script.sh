@@ -23,11 +23,6 @@ git clone $MIRROR_URL/openwrt_packages package/openwrt_packages
 
 # 私有科学代理源
 git clone $MIRROR_URL/openwrt_helloworld package/openwrt_helloworld
-rm -rf package/openwrt_helloworld/{daed,luci-app-daed}
-
-# 大鹅
-git clone $MIRROR_URL/luci-app-daed package/luci-app-daed
-mkdir -p package/libcron && wget -O package/libcron/Makefile https://raw.githubusercontent.com/immortalwrt/packages/refs/heads/master/libs/libcron/Makefile
 
 # 更改 Argon 主题背景
 cp -f $GITHUB_WORKSPACE/other/bg1.jpg package/openwrt_packages/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
